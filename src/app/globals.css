@@ -1,26 +1,229 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-black: #0a0a0a;
+  --color-charcoal: #161616;
+  --color-charcoal-soft: #1e1e1e;
+  --color-white: #ffffff;
+  --color-muted: #a3a3a3;
+  --color-orange: #ff7a1a;
+  --color-orange-bright: #ff9a45;
+  --color-ember: #ffb36b;
+
+  --shadow-hairline: 0 0 0 1px color-mix(in oklab, var(--color-orange) 22%, transparent);
+  --shadow-lift: 0 18px 50px -30px
+    color-mix(in oklab, var(--color-orange) 55%, transparent);
+
+  --ease-sanctuary: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-fade-rise: fade-rise 900ms var(--ease-sanctuary) both;
+  --animate-glow-pulse: glow-pulse 9s ease-in-out infinite;
+  --animate-drift: drift 14s ease-in-out infinite;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+  }
+
+  * {
+    border-color: color-mix(in oklab, var(--color-white) 10%, transparent);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    font-family: var(--font-sans);
+    font-feature-settings: "kern", "liga";
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-orange) 45%, transparent);
+    color: var(--color-black);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-orange);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Global "Pause animation" toggle (see src/lib/motion-preference.ts).
+     Freezes CSS animations/transitions; JS-driven motion opts in via hooks. */
+  [data-motion="paused"] *,
+  [data-motion="paused"] *::before,
+  [data-motion="paused"] *::after {
+    animation-play-state: paused !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 84rem;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-orange);
+}
+
+@utility hairline {
+  border: 1px solid color-mix(in oklab, var(--color-white) 12%, transparent);
+}
+
+@utility hairline-orange {
+  border: 1px solid color-mix(in oklab, var(--color-orange) 28%, transparent);
+}
+
+@utility surface {
+  background: color-mix(in oklab, var(--color-charcoal) 66%, transparent);
+  backdrop-filter: blur(14px);
+  border: 1px solid color-mix(in oklab, var(--color-white) 9%, transparent);
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility placeholder-chip {
+  font-style: italic;
+  /* Bright enough for WCAG AA (4.5:1) against the black background —
+     the token mix below lands well above the threshold on both
+     --color-black and --color-charcoal surfaces. */
+  color: color-mix(in oklab, var(--color-orange) 55%, var(--color-white));
+  background: color-mix(in oklab, var(--color-orange) 10%, transparent);
+  border: 1px dashed color-mix(in oklab, var(--color-orange) 45%, transparent);
+  border-radius: 2px;
+  padding: 0.1em 0.45em;
+  white-space: nowrap;
+}
+
+@utility grain {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  }
+}
+
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+/* Hero entrance. These are CSS-only on purpose: the headline must be painted
+   (and therefore counted as LCP) at first render, not after hydration, so
+   LCP on Slow 4G stays under 2.5s. Delays mirror the old JS stagger. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-hero-rise {
+  animation: hero-rise 1100ms var(--ease-sanctuary) both;
+}
+
+@utility delay-hero-0 {
+  animation-delay: 150ms;
+}
+
+@utility delay-hero-1 {
+  animation-delay: 300ms;
+}
+
+@utility delay-hero-2 {
+  animation-delay: 500ms;
+}
+
+@utility delay-hero-3 {
+  animation-delay: 650ms;
+}
+
+@utility delay-hero-4 {
+  animation-delay: 800ms;
 }
