@@ -4,7 +4,6 @@ import { Nav } from "@/components/site/nav";
 import { Footer } from "@/components/site/footer";
 import { Cursor } from "@/components/site/cursor";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
-import { MotionToggle } from "@/components/ui/motion-toggle";
 import { siteSettings } from "@/content/site";
 import { organizationJsonLd } from "@/lib/jsonld";
 import "./globals.css";
@@ -80,7 +79,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </main>
         <Footer />
         <Cursor />
-        <MotionToggle />
       </body>
     </html>
   );
