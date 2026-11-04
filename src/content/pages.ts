@@ -98,4 +98,4 @@ export const faqs: Faq[] = [
 
 /** Small welcome statement used on Home. */
 export const welcomeStatement =
-  "Whether you have walked with God for years or you are simply curious, there is a place for you in this house. We would be honoured to welcome you.";
+  "Pastor Samuel Babatope is the lead pastor of CAC Citadel of Grace, a dynamic teaching ministry dedicated to spreading the gospel and raising people to become excellent kingdom functionaries in the market place after the order of Daniels and Deborah. With a passion to see young men and women live to the fulness of God’s plan and purpose for their lives, he has held conferences, seminars and workshops targeted at mind transformation and excellent living"

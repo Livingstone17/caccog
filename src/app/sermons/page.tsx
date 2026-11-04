@@ -14,6 +14,7 @@ import {
 } from "@/content/sermons";
 import { formatShortDate } from "@/lib/format";
 import { isPlaceholder } from "@/lib/utils";
+import sermonsImage from "@/app/preaching2.jpg";
 
 export const metadata: Metadata = pageMetadata("/sermons", {
   title: "Sermons",
@@ -31,6 +32,8 @@ export default async function SermonsPage() {
         eyebrow="The Word"
         title="Sermons"
         intro="Messages of faith, hope and practical life — search by series, speaker or scripture."
+        image={sermonsImage.src}
+        imagePosition="50% 20%"
       />
 
       {/* Featured */}

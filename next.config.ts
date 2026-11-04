@@ -26,6 +26,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // The phone reaches the dev server on the LAN IP, which Next 16 treats as a
+  // cross-origin dev request and blocks. Without this the page HTML renders
+  // but never hydrates, so anything that starts with `opacity: 0` (e.g. the
+  // app/template.tsx page transition) stays invisible.
+  allowedDevOrigins: ["192.168.0.155"],
   turbopack: {
     rules: {
       "*.css": {
@@ -35,7 +40,7 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    qualities: [50, 75, 90, 100],
+    qualities: [50, 75, 85, 90, 100],
     remotePatterns: [
       { protocol: "https", hostname: "i.ytimg.com" },
       { protocol: "https", hostname: "img.youtube.com" },

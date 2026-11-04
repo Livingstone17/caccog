@@ -157,59 +157,62 @@ export function Nav() {
             aria-modal="true"
             aria-label="Site menu"
           >
-            <div className="flex flex-1 flex-col justify-center px-8 pt-24 pb-16">
-              <nav aria-label="Mobile" className="flex flex-col gap-1">
-                {[...NAV_LINKS, { href: "/give", label: "Give" }].map((link, i) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      delay: reduce ? 0 : 0.1 + i * 0.06,
-                      duration: 0.7,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                  >
-                    <Link
-                      href={link.href}
-                      onClick={close}
-                      className="font-display hover:text-ember block border-b border-white/8 py-4 text-4xl font-light text-white transition-colors duration-500 sm:text-5xl"
+            <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-8 pt-24 pb-10">
+              {/* Centers when short; parent scrolls when links would clip. */}
+              <div className="my-auto w-full">
+                <nav aria-label="Mobile" className="flex flex-col gap-0.5">
+                  {[...NAV_LINKS, { href: "/give", label: "Give" }].map((link, i) => (
+                    <motion.div
+                      key={link.href}
+                      initial={{ opacity: 0, y: 18 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        delay: reduce ? 0 : 0.1 + i * 0.06,
+                        duration: 0.7,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
                     >
-                      {link.label}
-                    </Link>
-                  </motion.div>
-                ))}
-              </nav>
+                      <Link
+                        href={link.href}
+                        onClick={close}
+                        className="font-display hover:text-ember block border-b border-white/8 py-3 text-[1.75rem] leading-tight font-light text-white transition-colors duration-500 sm:py-4 sm:text-5xl sm:leading-none"
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </nav>
 
-              <motion.div
-                className="text-muted mt-10 space-y-3 text-sm"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: reduce ? 0 : 0.5, duration: 0.8 }}
-              >
-                <p>{siteSettings.address.line1}</p>
-                <p>{siteSettings.city}</p>
-                <div className="flex gap-4 pt-2">
-                  <a
-                    href={siteSettings.socials.facebook}
-                    className="text-orange hover:text-ember text-xs tracking-[0.2em] uppercase"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Facebook
-                  </a>
-                  {!isPlaceholder(siteSettings.socials.youtube) && (
+                <motion.div
+                  className="text-muted mt-8 space-y-2 text-sm sm:mt-10 sm:space-y-3"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: reduce ? 0 : 0.5, duration: 0.8 }}
+                >
+                  <p>{siteSettings.address.line1}</p>
+                  <p>{siteSettings.city}</p>
+                  <div className="flex gap-4 pt-2">
                     <a
-                      href={siteSettings.socials.youtube}
+                      href={siteSettings.socials.facebook}
                       className="text-orange hover:text-ember text-xs tracking-[0.2em] uppercase"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      YouTube
+                      Facebook
                     </a>
-                  )}
-                </div>
-              </motion.div>
+                    {!isPlaceholder(siteSettings.socials.youtube) && (
+                      <a
+                        href={siteSettings.socials.youtube}
+                        className="text-orange hover:text-ember text-xs tracking-[0.2em] uppercase"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        YouTube
+                      </a>
+                    )}
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </motion.div>
         )}

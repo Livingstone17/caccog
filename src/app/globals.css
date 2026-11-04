@@ -89,6 +89,18 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* Entrance animations are one-shot and start at opacity: 0, so freezing
+     them mid-flight hides the content they carry (that is what used to blank
+     the hero for reduced-motion visitors, since the pause state seeds from
+     prefers-reduced-motion). Let them resolve; only looping/decorative motion
+     is paused. Higher specificity than the rule above, same layer. */
+  [data-motion="paused"] .animate-hero-rise,
+  [data-motion="paused"] .animate-page-enter,
+  [data-motion="paused"] .animate-hero-rise *,
+  [data-motion="paused"] .animate-page-enter * {
+    animation-play-state: running !important;
+  }
 }
 
 @utility container-page {
@@ -193,6 +205,24 @@
 /* Hero entrance. These are CSS-only on purpose: the headline must be painted
    (and therefore counted as LCP) at first render, not after hydration, so
    LCP on Slow 4G stays under 2.5s. Delays mirror the old JS stagger. */
+/* Page transition (app/template.tsx). Deliberately CSS-only: the wrapper must
+   reach opacity: 1 even when client JS never runs, otherwise an unhydrated
+   page renders nothing but the layout chrome (nav + footer). */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-page-enter {
+  animation: page-enter 800ms var(--ease-sanctuary) both;
+}
+
 @keyframes hero-rise {
   from {
     opacity: 0;

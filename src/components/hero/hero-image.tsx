@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import church from "@/app/cathedral.jpg"
+import church from "@/app/cog-audi.jpg"
 
 /**
  * The hero photograph: a wide interior shot of the sanctuary with light

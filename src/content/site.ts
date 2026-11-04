@@ -9,8 +9,8 @@ import type { BankDetails, GivingPreset, ServiceTime } from "./types";
  */
 export const siteSettings = {
   name: "Citadel of Grace",
-  fullName: "Citadel of Grace, Christ Apostolic Church (CAC)",
-  shortName: "Citadel of Grace",
+  fullName: "Christ Apostolic Church, Citadel of Grace",
+  shortName: "CAC, Citadel of Grace",
   denomination: "Christ Apostolic Church (CAC)",
   /** Proposed welcome line — see CONTENT_TODO.md tagline options. */
   tagline: "",
@@ -81,6 +81,12 @@ export const siteSettings = {
       id: "midweek",
       label: "Midweek service - Bible Study",
       day: "Wednessday",
+      time: "5pm",
+    },
+    {
+      id: "midweek-prayer",
+      label: "Midweek service - Prayer Meeting",
+      day: "Friday",
       time: "5pm",
     },
   ] satisfies ServiceTime[],

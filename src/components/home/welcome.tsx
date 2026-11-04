@@ -10,52 +10,62 @@ import Image from "next/image";
 export function Welcome() {
   return (
     <section id="welcome" className="relative bg-white" aria-labelledby="welcome-title">
-      <div className="container-page py-10 text-center md:py-22">
+      <div className="container-page py-14 md:py-22">
         <Reveal>
-          <p className="eyebrow">Welcome home</p>
+          <p className="eyebrow text-center">Welcome home</p>
+        </Reveal>
+
+        <div className="mt-10 grid items-center gap-10 md:mt-14 md:grid-cols-2 md:gap-14 lg:gap-20">
+          {/* Native portrait is ~4:5 (1122×1402); keep that frame so cover
+              crops minimally and the face stays the focal point. */}
+          <Reveal>
+            <div className="relative mx-auto aspect-[4/5] w-full max-w-[18.5rem] sm:max-w-sm md:mx-0 md:max-w-md lg:max-w-[26rem]">
+              <Image
+                src={pastor}
+                alt="Pastor Samuel Babatope, Lead Pastor of CAC Citadel of Grace"
+                fill
+                sizes="(max-width: 768px) 18.5rem, (max-width: 1024px) 28rem, 26rem"
+                className="object-contain object-center"
+                placeholder="blur"
+              />
+            </div>
+          </Reveal>
+
+          <div className="text-center md:text-left">
+            <Reveal delay={0.1}>
+              <h2
+                id="welcome-title"
+                className="font-display text-3xl leading-[1.35] font-light text-black md:text-[2.6rem]"
+              >
+                Our Lead Pastor
+              </h2>
+            </Reveal>
+
+            <Reveal delay={0.2}>
+              <p className="font-display mx-auto mt-5 max-w-xl text-base leading-relaxed font-light text-black/65 md:mx-0 md:text-xl md:leading-[1.45]">
+                {welcomeStatement}
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.3}>
+              <p className="text-muted mx-auto mt-8 max-w-xl text-base leading-relaxed md:mx-0">
+                <Text>{siteSettings.fullName}</Text> meets in{" "}
+                <Text>{siteSettings.city}</Text>. Doors are open — come as you are.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+
+        <Reveal delay={0.3}>
+          <Divider className="mt-14 md:mt-20" />
         </Reveal>
       </div>
-      <div className="welcomeContainer grid pr-[20vw] pl-[20vw] md:grid-cols-2">
-        <div className="relative h-[60vh] w-full overflow-hidden">
-          <Image
-            src={pastor}
-            alt="lead pastor"
-            fill
-            className="object-cover object-top"
-          />
-        </div>
-        <div className="welcomeNote mt-32">
-          <Reveal delay={0.1}>
-            <h2
-              id="welcome-title"
-              className="font-display mx-auto max-w-3xl text-3xl leading-[1.35] font-light text-black md:text-[2.6rem]"
-            >
-              Our Lead Pastor
-            </h2>
-          </Reveal>
-
-          <Reveal delay={0.2}>
-            <p className="font-display mx-auto max-w-3xl text-sm leading-[1.35] font-light text-black/65 md:text-[1.6rem]">
-              {welcomeStatement}
-            </p>
-          </Reveal>
-          <Reveal delay={0.3}>
-
-            <p className="text-muted mx-auto mt-8 max-w-xl text-base leading-relaxed">
-              <Text>{siteSettings.fullName}</Text> meets in{" "}
-              <Text>{siteSettings.city}</Text>. Doors are open — come as you are.
-            </p>
-          </Reveal>
-        </div>
-      </div>
-      <Reveal delay={0.3}>
-        <Divider className="mt-5" />
-      </Reveal>
     </section>
   );
 }
 
-/** Service times strip — the fastest answer to "when is the service?". */ export function ServiceStrip() {
+/** Service times strip — the fastest answer to "when is the service?". */
+export function ServiceStrip() {
   return (
     <section
       aria-label="Service times"
