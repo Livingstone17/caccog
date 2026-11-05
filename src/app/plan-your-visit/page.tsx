@@ -8,6 +8,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { faqs } from "@/content/pages";
 import { siteSettings } from "@/content/site";
 import { isPlaceholder } from "@/lib/utils";
+import { PlanAVisit } from "@/components/plan-a-visit/plan-a-visit";
 
 export const metadata: Metadata = pageMetadata("/plan-your-visit", {
   title: "Plan Your Visit",
@@ -93,11 +94,13 @@ export default function PlanYourVisitPage() {
 
   return (
     <>
-      <PageHeader
+      {/* <PageHeader
         eyebrow="First time?"
         title="Plan your visit"
         intro="Everything you need before you come: times, directions, what to wear, where to park and how to reach us."
-      />
+        image="/assets/cathedral.jpg"
+      /> */}
+      <PlanAVisit />
 
       {/* Times + map */}
       <Section id="visit" align="left">
@@ -187,14 +190,14 @@ export default function PlanYourVisitPage() {
         eyebrow="In the neighbourhood"
         title={
           <>
-            A church in <span className="placeholder-chip">[City, Country]</span>
+            A church in <span className="">Lagos, Nigeria</span>
           </>
         }
         align="left"
       >
         <Reveal className="max-w-3xl">
           <p className="text-muted text-base leading-relaxed md:text-lg">
-            Citadel of Grace meets weekly in <Text>[City, Country]</Text>, warmly
+            Citadel of Grace meets weekly in <Text>Alagbado, Lagos</Text>, warmly
             welcoming anyone looking for a Christ Apostolic Church congregation in the
             area. Whether you are new to the city, returning after a long time, or simply
             searching for a church community close to home, you are invited to join us
