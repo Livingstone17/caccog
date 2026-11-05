@@ -31,7 +31,7 @@ export function PageHeader({
   const hasImage = Boolean(image);
 
   return (
-    <header className="relative overflow-hidden pt-32 pb-20 md:pt-44 md:pb-28">
+    <header className="relative overflow-hidden pt-28 pb-14 sm:pt-32 sm:pb-20 md:pt-44 md:pb-28">
       {/* ── Background layers ─────────────────────────────── */}
 
       {/* Warm charcoal base */}
@@ -126,12 +126,12 @@ export function PageHeader({
           as="h1"
           text={title}
           delay={0.12}
-          className="font-display mx-auto mt-7 max-w-3xl text-[clamp(2.2rem,6vw,4.5rem)] leading-[1.05] font-light tracking-tight text-amber-50"
+          className="font-display mx-auto mt-6 max-w-3xl text-[clamp(2.1rem,6vw,4.5rem)] leading-[1.08] font-light tracking-tight text-amber-50 sm:mt-7"
         />
 
         {intro && (
           <Reveal delay={0.35}>
-            <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed font-light text-amber-50/65 md:text-lg">
+            <p className="mx-auto mt-5 max-w-2xl text-[0.95rem] leading-relaxed font-light text-amber-50/65 sm:mt-7 sm:text-base md:text-lg">
               {intro}
             </p>
           </Reveal>

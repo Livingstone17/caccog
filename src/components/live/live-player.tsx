@@ -51,13 +51,15 @@ export function LivePlayer({ className }: { className?: string }) {
     return (
       <div
         className={cn(
-          "border-orange/35 bg-charcoal/60 relative flex aspect-video w-full flex-col items-center justify-center overflow-hidden border border-dashed",
+          // Content-first on phones: a fixed 16:9 box is too short for the pending
+          // panel's copy + button, so it only takes the video ratio from `sm` up.
+          "border-orange/35 bg-charcoal/60 relative flex w-full flex-col items-center justify-center overflow-hidden border border-dashed px-5 py-10 text-center sm:aspect-video sm:px-0 sm:py-0",
           className,
         )}
       >
         <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(255,122,26,0.12),transparent_70%)]" />
         <span className="eyebrow relative">Stream pending</span>
-        <p className="text-muted relative mt-3 max-w-sm px-6 text-center text-sm leading-relaxed">
+        <p className="text-muted relative mt-3 max-w-sm text-sm leading-relaxed text-pretty px-0 sm:px-6">
           The live player will appear here once the media team supplies the YouTube live
           channel or video ID. Until then, join us on the channel below.
         </p>

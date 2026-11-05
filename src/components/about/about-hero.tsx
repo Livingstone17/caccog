@@ -99,7 +99,7 @@ export function AboutHero() {
             {/* Copy — bottom-left, large, confident */}
             <motion.div
                 style={{ y: copyY, opacity: copyOpacity }}
-                className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-6 pb-20 md:pb-24"
+                className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-6 pb-12 sm:pb-20 md:pb-24"
             >
                 <div className="max-w-3xl">
                     <p className="animate-hero-rise delay-hero-0 flex items-center gap-4 text-[0.62rem] font-medium tracking-[0.42em] text-amber-100/90 uppercase sm:text-[0.7rem]">
@@ -114,7 +114,7 @@ export function AboutHero() {
                         </span>
                     </h1>
 
-                    <p className="animate-hero-rise delay-hero-2 mt-6 max-w-xl text-base leading-relaxed font-light text-amber-50/85 drop-shadow-[0_2px_14px_rgba(26,18,8,0.9)] md:text-lg">
+                    <p className="animate-hero-rise delay-hero-2 mt-6 max-w-xl text-[0.95rem] leading-relaxed font-light text-amber-50/85 drop-shadow-[0_2px_14px_rgba(26,18,8,0.9)] sm:text-base md:text-lg">
                         For over two decades, Citadel of Grace has been a family —
                         worshipping, serving, and growing together as part of the Christ
                         Apostolic Church. This is our story, what we believe, and the

@@ -48,8 +48,8 @@ export function Footer() {
 
   return (
     <footer className="grain bg-charcoal/40 relative border-t border-white/10">
-      <div className="container-page grid gap-12 py-16 md:grid-cols-12 md:py-20">
-        <div className="md:col-span-4">
+      <div className="container-page grid grid-cols-2 gap-x-6 gap-y-10 py-12 sm:gap-x-8 md:grid-cols-12 md:gap-12 md:py-20">
+        <div className="col-span-2 md:col-span-4">
           <Image
             src="/logo.png"
             alt="Citadel of Grace — Christ Apostolic Church (CAC)"
@@ -71,7 +71,7 @@ export function Footer() {
           </div>
         </div>
 
-        <nav aria-label="Footer" className="md:col-span-3">
+        <nav aria-label="Footer" className="col-span-1 md:col-span-3">
           <p className="eyebrow mb-5">Explore</p>
           <ul className="text-muted space-y-3 text-sm">
             {NAV_LINKS.map((link) => (
@@ -95,7 +95,7 @@ export function Footer() {
           </ul>
         </nav>
 
-        <div className="md:col-span-2">
+        <div className="col-span-1 md:col-span-2">
           <p className="eyebrow mb-5">Services</p>
           <ul className="text-muted space-y-4 text-sm">
             {siteSettings.serviceTimes.map((t) => (
@@ -110,7 +110,7 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="md:col-span-3">
+        <div className="col-span-2 md:col-span-3">
           <p className="eyebrow mb-5">Find us</p>
           <address className="text-muted space-y-4 text-sm not-italic">
             <span className="block">

@@ -154,7 +154,13 @@
   border: 1px dashed color-mix(in oklab, var(--color-orange) 45%, transparent);
   border-radius: 2px;
   padding: 0.1em 0.45em;
-  white-space: nowrap;
+  /* Long bracketed placeholders must wrap: `nowrap` made them wider than the
+     viewport on phones and stretched the whole page (grid/flex items can't
+     shrink below their intrinsic width). */
+  white-space: normal;
+  overflow-wrap: break-word;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 @utility grain {
