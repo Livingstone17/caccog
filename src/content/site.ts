@@ -113,7 +113,7 @@ export const siteSettings = {
 export type SiteSettings = typeof siteSettings;
 
 export const NAV_LINKS = [
-  { href: "/about", label: "About" },
+  { href: "/about", label: "About Us" },
   { href: "/plan-your-visit", label: "Plan Your Visit" },
   { href: "/live", label: "Live" },
   { href: "/sermons", label: "Sermons" },

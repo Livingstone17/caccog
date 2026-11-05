@@ -9,7 +9,7 @@ import Image from "next/image";
 /** Welcome statement — the hero text cross-fades into this section. */
 export function Welcome() {
   return (
-    <section id="welcome" className="relative bg-white" aria-labelledby="welcome-title">
+    <section id="welcome" className="relative bg-black" aria-labelledby="welcome-title">
       <div className="container-page py-14 md:py-22">
         <Reveal>
           <p className="eyebrow text-center">Welcome home</p>
@@ -19,7 +19,7 @@ export function Welcome() {
           {/* Native portrait is ~4:5 (1122×1402); keep that frame so cover
               crops minimally and the face stays the focal point. */}
           <Reveal>
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-[18.5rem] sm:max-w-sm md:mx-0 md:max-w-md lg:max-w-[26rem]">
+            <div className="relative mx-auto aspect-[4/5] w-full max-w-[18.5rem] [mask-image:linear-gradient(to_bottom,black_58%,transparent_100%)] [mask-size:100%_100%] [mask-repeat:no-repeat] sm:max-w-sm md:mx-0 md:max-w-md lg:max-w-[26rem]">
               <Image
                 src={pastor}
                 alt="Pastor Samuel Babatope, Lead Pastor of CAC Citadel of Grace"
@@ -35,14 +35,14 @@ export function Welcome() {
             <Reveal delay={0.1}>
               <h2
                 id="welcome-title"
-                className="font-display text-3xl leading-[1.35] font-light text-black md:text-[2.6rem]"
+                className="font-display text-3xl leading-[1.35] font-light text-white md:text-[2.6rem]"
               >
                 Our Lead Pastor
               </h2>
             </Reveal>
 
             <Reveal delay={0.2}>
-              <p className="font-display mx-auto mt-5 max-w-xl text-base leading-relaxed font-light text-black/65 md:mx-0 md:text-xl md:leading-[1.45]">
+              <p className="font-display mx-auto mt-5 max-w-xl text-base leading-relaxed font-light text-white/65 md:mx-0 md:text-xl md:leading-[1.45]">
                 {welcomeStatement}
               </p>
             </Reveal>

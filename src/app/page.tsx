@@ -17,9 +17,10 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(churchJsonLd()) }}
       />
       <Hero />
-      <Welcome />
+
       <ServiceStrip />
       <WhatToExpect />
+      <Welcome />
       <LatestSermon />
       <UpcomingEvents />
       <VisionQuote />
