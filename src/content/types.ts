@@ -43,15 +43,26 @@ export interface Leader {
   photoUrl: string | null;
 }
 
-export interface Ministry {
+// export interface Ministry {
+//   id: string;
+//   slug: string;
+//   name: string;
+//   summary: string;
+//   description: string;
+//   meetingTime: string;
+//   leader: string;
+// }
+
+
+export type Ministry = {
   id: string;
   slug: string;
   name: string;
   summary: string;
   description: string;
-  meetingTime: string;
-  leader: string;
-}
+  meetingTime: string | null;
+  leader: string | null;
+};
 
 export interface Faq {
   question: string;

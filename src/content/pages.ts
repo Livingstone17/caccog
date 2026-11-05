@@ -6,8 +6,13 @@ import type { ExpectCard, Faq, TimelineEntry } from "./types";
  */
 
 export const visionMission = {
-  vision: "[Vision statement — as approved by church leadership.]",
-  mission: "[Mission statement — as approved by church leadership.]",
+  vision: "Raising Christians in the market place in the order of Daniel and Esther through practical teachings",
+  mission: `To preach the Gospel of Jesus Christ to all people
+To raise disciples through sound biblical teaching.
+To promote a lifestyle of holiness, prayer and righteousness.
+To create an atmosphere for spiritual , financial , marital growth and divine encounters.
+To build strong families and a loving Christian community.
+To reach out to our community through evangelism and acts of love.`,
 };
 
 export const storyTimeline: TimelineEntry[] = [
@@ -32,22 +37,24 @@ export const storyTimeline: TimelineEntry[] = [
  * Statement of faith — placeholder ONLY. Real content must be the church's
  * approved CAC doctrinal statement. Do not write doctrine here.
  */
+
+
 export const statementOfFaith = [
   {
-    title: "[Belief 1 — heading]",
-    body: "[Approved doctrinal statement — to be supplied by leadership.]",
+    title: "The Gospel and the Mission of the Church",
+    body: "We believe in the supreme authority and transforming power of the Gospel of Jesus Christ. We are dedicated to spreading this message of salvation, trusting that it is the primary means by which God reconciles humanity to Himself and initiates spiritual renewal.",
   },
   {
-    title: "[Belief 2 — heading]",
-    body: "[Approved doctrinal statement — to be supplied by leadership.]",
+    title: "Marketplace Ministry and Kingdom Representation",
+    body: "We believe that a believer's calling extends beyond the church building. Following the biblical examples of Daniel and Deborah, we affirm that God equips His people to be excellent kingdom representatives, bringing godly influence, integrity, and leadership into the secular marketplace.",
   },
   {
-    title: "[Belief 3 — heading]",
-    body: "[Approved doctrinal statement — to be supplied by leadership.]",
+    title: "Divine Purpose and Spiritual Destiny",
+    body: "We believe that God has a unique and specific purpose for every individual. We are committed to teaching and mentoring believers, particularly the younger generation, to discover, embrace, and walk in the fullness of their God-given destiny.",
   },
   {
-    title: "[Belief 4 — heading]",
-    body: "[Approved doctrinal statement — to be supplied by leadership.]",
+    title: "Mind Transformation and Holistic Excellence",
+    body: "We believe in the necessity of mind transformation through the truth of the Word of God. We teach that renewing our thoughts and aligning them with biblical principles is essential for achieving spiritual maturity, godly character, and excellence in all areas of life.",
   },
 ];
 
@@ -98,4 +105,4 @@ export const faqs: Faq[] = [
 
 /** Small welcome statement used on Home. */
 export const welcomeStatement =
-  "Pastor Samuel Babatope is the lead pastor of CAC Citadel of Grace, a dynamic teaching ministry dedicated to spreading the gospel and raising people to become excellent kingdom functionaries in the market place after the order of Daniels and Deborah. With a passion to see young men and women live to the fulness of God’s plan and purpose for their lives, he has held conferences, seminars and workshops targeted at mind transformation and excellent living"
+  "Welcome to our church family. We are a dynamic teaching ministry dedicated to spreading the gospel and equipping believers to become excellent kingdom representatives in the marketplace, following the examples of Daniel and Deborah. Driven by a passion to help young men and women step into the fullness of God’s purpose, we regularly hold conferences, seminars, and workshops focused on mind transformation and excellence in all areas of life."

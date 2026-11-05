@@ -3,7 +3,9 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { NAV_LINKS, siteSettings } from "@/content/site";
 import { getUpcomingEvents } from "@/content/events";
-import { NewsletterForm } from "@/components/site/newsletter-form";
+// Newsletter signup is paused until a real provider (Brevo list) is supplied —
+// uncomment this import together with the block in the footer below.
+// import { NewsletterForm } from "@/components/site/newsletter-form";
 import { isPlaceholder } from "@/lib/utils";
 
 function SocialIcon({ label }: { label: "facebook" | "youtube" | "instagram" }) {
@@ -66,9 +68,11 @@ export function Footer() {
             <SocialIcon label="youtube" />
             <SocialIcon label="instagram" />
           </div>
+          {/* Newsletter signup paused until the email provider is confirmed.
           <div className="mt-8">
             <NewsletterForm />
           </div>
+          */}
         </div>
 
         <nav aria-label="Footer" className="col-span-1 md:col-span-3">
@@ -149,7 +153,7 @@ export function Footer() {
             <Link href="/privacy" className="hover:text-white/80">
               Privacy
             </Link>
-            <span className="text-orange/60">Built with grace</span>
+            <span className="text-orange/60">Built with grace by <span className="text-white/60">Phos Creations Hub</span></span>
           </div>
         </div>
       </div>

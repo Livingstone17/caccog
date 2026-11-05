@@ -1,0 +1,64 @@
+{
+    "ministries": [
+        {
+            "name": "Choir Department",
+            "description": "Our ministry seeks to glorify God through songs that communicate the message of Christ and create an atmosphere of worship.",
+            "meeting_time": "4:30 PM to 7:30 PM on Saturday",
+            "team_lead": "Mr Tobi Amusan"
+        },
+        {
+            "name": "Youth Ministry",
+            "description": "We are committed to raising a 360 degree youth who is balanced spiritually, emotionally, financially and socially through Biblical teachings.",
+            "meeting_time": null,
+            "team_lead": null
+        },
+        {
+            "name": "Media Ministry",
+            "description": "We are committed to capturing and sharing the activities, programs and special moments of the church through photography, videography, contents, livestreaming, graphics design and other digital platforms.",
+            "meeting_time": null,
+            "team_lead": "Mr Opeyemi Michael"
+        },
+        {
+            "name": "Administrative Department",
+            "description": "We are responsible for coordinating and managing the administrative affairs of the church to ensure smooth and effective operations.",
+            "meeting_time": "Sunday 1:00 PM",
+            "team_lead": "Mrs Debbie Opeyemi"
+        },
+        {
+            "name": "Ushers Ministry",
+            "description": "We are dedicated to ensure orderliness, peaceful and comfortable worship experience for everyone who comes into God's presence.",
+            "meeting_time": "5:00 PM to 6:00 PM on Friday",
+            "team_lead": null
+        },
+        {
+            "name": "Greeters Ministry",
+            "description": "We are committed to ensure warm welcoming and friendly atmosphere for everyone who visits our church.",
+            "meeting_time": null,
+            "team_lead": null
+        },
+        {
+            "name": "Children Ministry",
+            "description": "We are committed to raising the children in a Godly manner, through Biblical teachings and guidance.",
+            "meeting_time": null,
+            "team_lead": null
+        },
+        {
+            "name": "Men Ministry",
+            "description": "We are committed to raise godly men and husbands, who are spiritually matured, responsible and grounded by the word of God.",
+            "meeting_time": null,
+            "team_lead": null
+        },
+        {
+            "name": "Women Ministry",
+            "description": "We are committed to raise a Godly, sound women, wife, and mothers who are purpose driven and committed to fulfill God's purpose for their lives.",
+            "meeting_time": null,
+            "team_lead": null
+        },
+        {
+            "name": "Sunday School Ministry",
+            "description": "We are committed to teaching, nurturing and equipping believers with a solid understanding of God's word.",
+            "meeting_time": "6:00 PM to 7:30 PM on Saturday",
+            "team_lead": "Pst Mrs Busayo Babatope"
+        }
+    ]
+}
