@@ -84,16 +84,19 @@ export async function sanityGetEvents(): Promise<ChurchEvent[]> {
     _id, slug, title, description, startsAt, endsAt, venue, location
   }`;
   const rows = await sanityClient().fetch<RawEvent[]>(query);
-  return rows.map((row) => ({
-    id: row._id,
-    slug: row.slug?.current ?? row._id,
-    title: row.title ?? "[Untitled event]",
-    description: blocksToText(row.description),
-    startsAt: row.startsAt ?? new Date().toISOString(),
-    endsAt: row.endsAt,
-    venue: row.venue ?? "[Venue]",
-    location: row.location,
-  }));
+  return rows.map((row) => {
+    const startsAt = row.startsAt ?? new Date().toISOString();
+    return {
+      id: row._id,
+      slug: row.slug?.current ?? row._id,
+      title: row.title ?? "[Untitled event]",
+      description: blocksToText(row.description),
+      startsAt,
+      endsAt: row.endsAt ?? startsAt,
+      venue: row.venue ?? "[Venue]",
+      location: row.location ?? "",
+    };
+  });
 }
 
 interface RawLeader {

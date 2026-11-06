@@ -4,39 +4,42 @@ import type { ChurchEvent } from "./types";
  * Sample upcoming events — all titles/venues are placeholders.
  * Dates are illustrative only and must be replaced (CONTENT_TODO.md).
  */
+
 export const events: ChurchEvent[] = [
   {
     id: "e-01",
     slug: "event-name-01",
-    title: "[Event name — 01]",
-    description:
-      "[Event description — to be supplied. Include what guests should know before they arrive.]",
-    startsAt: "2026-11-01T17:00:00+01:00",
-    endsAt: "2026-11-01T19:30:00+01:00",
-    venue: "[Venue name]",
-    location: "[Venue address, City]",
+    title: "800 seaters capacity dedication",
+    description: "Dedication of our new auditorium with 800 seaters capacity",
+    startsAt: "2026-11-28T10:00:00+01:00",
+    endsAt: "2026-11-28T12:00:00+01:00",
+    venue: "CAC Citadel of Grace",
+    location: "1, Jolaosho street, Alagbado, Lagos",
   },
   {
     id: "e-02",
-    slug: "event-name-02",
-    title: "[Event name — 02]",
+    slug: "rehoboth-fasting-and-prayer-2026",
+    title: "Rehoboth Fasting and Prayer",
     description:
-      "[Event description — to be supplied. Include what guests should know before they arrive.]",
-    startsAt: "2026-11-15T10:00:00+01:00",
-    endsAt: "2026-11-15T13:00:00+01:00",
-    venue: "[Venue name]",
-    location: "[Venue address, City]",
+      "22 days of intensive fasting and prayer for the church, families, and the nation.",
+    startsAt: "2026-11-01T00:00:00+01:00",
+    endsAt: "2026-11-22T23:59:59+01:00",
+    isMultiDay: true,
+    dailySchedule: "Daily Fasting (6:00 AM – 6:00 PM) • Evening Prayers: 6:00 PM daily",
+    venue: "CAC Citadel of Grace",
+    location: "1, Jolaosho street, Alagbado, Lagos",
+    category: "Fasting & Prayer",
   },
   {
     id: "e-03",
     slug: "event-name-03",
-    title: "[Event name — 03]",
+    title: "Cross over service",
     description:
-      "[Event description — to be supplied. Include what guests should know before they arrive.]",
-    startsAt: "2026-12-06T17:00:00+01:00",
-    endsAt: "2026-12-06T20:00:00+01:00",
-    venue: "[Venue name]",
-    location: "[Venue address, City]",
+      "A special service to mark the end of the year and the beginning of the new year",
+    startsAt: "2026-12-31T22:00:00+01:00",
+    endsAt: "2027-01-01T02:00:00+01:00",
+    venue: "CAC Citadel of Grace",
+    location: "1, Jolaosho street, Alagbado, Lagos",
   },
 ];
 

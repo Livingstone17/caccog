@@ -20,6 +20,10 @@ export default function ContactPage() {
   const emailHref = isPlaceholder(siteSettings.email)
     ? null
     : `mailto:${siteSettings.email}`;
+  // Dial the first listed number; the full list is shown as the label.
+  const phoneHref = isPlaceholder(siteSettings.phone)
+    ? null
+    : `tel:${siteSettings.phone.split(",")[0].replace(/[^0-9+]/g, "")}`;
 
   return (
     <>
@@ -43,17 +47,17 @@ export default function ContactPage() {
                   <span className="text-orange/80 block text-[0.6rem] tracking-[0.28em] uppercase">
                     Phone
                   </span>
-                  {isPlaceholder(siteSettings.phone) ? (
-                    <span className="placeholder-chip mt-1.5 inline-block">
-                      {siteSettings.phone}
-                    </span>
-                  ) : (
+                  {phoneHref ? (
                     <a
-                      href={`tel:${siteSettings.phone}`}
+                      href={phoneHref}
                       className="hover:text-ember mt-1.5 block text-white transition-colors duration-500"
                     >
                       {siteSettings.phone}
                     </a>
+                  ) : (
+                    <span className="placeholder-chip mt-1.5 inline-block">
+                      {siteSettings.phone}
+                    </span>
                   )}
                 </li>
                 <li>

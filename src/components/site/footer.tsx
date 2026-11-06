@@ -136,7 +136,7 @@ export function Footer() {
             <span className="block text-white/60">
               {upcoming.length > 0 && (
                 <>
-                  Next up: <span className="placeholder-chip">{upcoming[0].title}</span>
+                  Next up: <span className="text-orange">{upcoming[0].title}</span>
                 </>
               )}
             </span>

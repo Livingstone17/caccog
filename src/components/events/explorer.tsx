@@ -32,6 +32,43 @@ function useCalendarGrid(key: string) {
   }, [key]);
 }
 
+/** True when `day` of the given month falls inside the event's date span. */
+function spansDay(event: ChurchEvent, month: string, day: number) {
+  const [y, m] = month.split("-").map(Number);
+  const target = new Date(y, (m || 1) - 1, day).getTime();
+  const start = new Date(event.startsAt);
+  const end = new Date(event.endsAt);
+  const firstDay = new Date(
+    start.getFullYear(),
+    start.getMonth(),
+    start.getDate(),
+  ).getTime();
+  const lastDay = new Date(end.getFullYear(), end.getMonth(), end.getDate()).getTime();
+  return target >= firstDay && target <= lastDay;
+}
+
+function MultiDayBadge() {
+  return (
+    <span className="text-orange/80 border-orange/40 mt-1 inline-block border px-2 py-0.5 text-[0.6rem] tracking-[0.2em] uppercase">
+      Multi-day
+    </span>
+  );
+}
+
+function DailyScheduleNote({ event }: { event: ChurchEvent }) {
+  if (!event.dailySchedule) return null;
+  return (
+    <p className="text-muted mt-2 text-sm leading-relaxed">
+      <span className="text-orange/80">Daily schedule: </span>
+      {isPlaceholder(event.dailySchedule) ? (
+        <span className="placeholder-chip">{event.dailySchedule}</span>
+      ) : (
+        event.dailySchedule
+      )}
+    </p>
+  );
+}
+
 export function EventExplorer({ events }: { events: ChurchEvent[] }) {
   const months = useMemo(
     () => [...new Set(events.map((e) => monthKey(e.startsAt)))],
@@ -51,10 +88,8 @@ export function EventExplorer({ events }: { events: ChurchEvent[] }) {
   }, [events]);
 
   const cells = useCalendarGrid(cursor);
-  const cursorEvents = byMonth.get(cursor) ?? [];
 
-  const eventsOnDay = (day: number) =>
-    cursorEvents.filter((e) => new Date(e.startsAt).getDate() === day);
+  const eventsOnDay = (day: number) => events.filter((e) => spansDay(e, cursor, day));
 
   const moveMonth = (delta: number) => {
     const [y, m] = cursor.split("-").map(Number);
@@ -109,6 +144,7 @@ export function EventExplorer({ events }: { events: ChurchEvent[] }) {
                         <p className="text-orange text-sm">
                           {formatEventRange(event.startsAt, event.endsAt)}
                         </p>
+                        {event.isMultiDay && <MultiDayBadge />}
                       </div>
                       <div className="flex-1">
                         <h3 className="font-display group-hover:text-ember text-xl font-normal text-white transition-colors duration-500 md:text-2xl">
@@ -125,6 +161,7 @@ export function EventExplorer({ events }: { events: ChurchEvent[] }) {
                             event.venue
                           )}
                         </p>
+                        <DailyScheduleNote event={event} />
                       </div>
                       <span
                         className="text-orange transition-transform duration-500 group-hover:translate-x-1.5"
@@ -229,10 +266,12 @@ export function EventExplorer({ events }: { events: ChurchEvent[] }) {
                   <p className="text-orange text-xs">
                     {formatEventRange(event.startsAt, event.endsAt)}
                   </p>
+                  {event.isMultiDay && <MultiDayBadge />}
                   <h3 className="font-display mt-2 text-lg font-normal text-white">
                     {event.title}
                   </h3>
                   <p className="text-muted mt-1 text-sm">{event.venue}</p>
+                  <DailyScheduleNote event={event} />
                   <div className="mt-4 flex flex-wrap gap-3">
                     <Link
                       href={`/events/${event.slug}`}

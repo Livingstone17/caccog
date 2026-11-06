@@ -109,7 +109,7 @@ export function PlanAVisit() {
 
                     <h1 className="animate-hero-rise delay-hero-1 mt-6 text-[clamp(2.4rem,7vw,5rem)] leading-[1.02] font-light tracking-tight text-amber-50 drop-shadow-[0_4px_30px_rgba(26,18,8,0.9)]">
                         A house of grace,{" "}
-                        <span className="font-serif text-amber-200/95 italic">
+                        <span className="font-display text-amber-200/95 italic">
                             a citadel of faith
                         </span>
                     </h1>

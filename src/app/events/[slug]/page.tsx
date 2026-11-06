@@ -51,7 +51,11 @@ export default async function EventPage(props: PageProps<"/events/[slug]">) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd(event)) }}
       />
       <PageHeader
-        eyebrow={formatDate(event.startsAt)}
+        eyebrow={
+          event.isMultiDay
+            ? formatEventRange(event.startsAt, event.endsAt)
+            : formatDate(event.startsAt)
+        }
         title={event.title}
         intro={event.description}
       />
@@ -64,6 +68,21 @@ export default async function EventPage(props: PageProps<"/events/[slug]">) {
               <p className="font-display text-ember mt-3 text-2xl font-light">
                 {formatEventRange(event.startsAt, event.endsAt)}
               </p>
+              {event.isMultiDay ? (
+                <span className="text-orange/80 border-orange/40 mt-2 inline-block border px-2 py-0.5 text-[0.6rem] tracking-[0.2em] uppercase">
+                  Multi-day
+                </span>
+              ) : null}
+              {event.dailySchedule ? (
+                <p className="text-muted mt-3 text-sm leading-relaxed">
+                  <span className="text-orange/80">Daily schedule: </span>
+                  {isPlaceholder(event.dailySchedule) ? (
+                    <span className="placeholder-chip">{event.dailySchedule}</span>
+                  ) : (
+                    event.dailySchedule
+                  )}
+                </p>
+              ) : null}
 
               <p className="eyebrow mt-8">Where</p>
               <p className="font-display mt-3 text-2xl font-light text-white">

@@ -1,5 +1,9 @@
 import type { BankDetails, GivingPreset, ServiceTime } from "./types";
 
+/** Confirmed church coordinates — 6.616859° N, 3.301371° E. */
+const coords = { lat: 6.616859, lng: 3.301371 } as const;
+const latLng = `${coords.lat},${coords.lng}`;
+
 /**
  * Site-wide settings.
  *
@@ -21,31 +25,32 @@ export const siteSettings = {
   city: "Lagos, Nigeria",
 
   address: {
-    line1: "3",
-    line2: "Mao Junction",
+    line1: "1, Jolaosho street",
+    line2: "",
     city: "Alagbado",
     state: "Lagos",
     country: "Nigeria",
     postalCode: "",
   },
 
-  phone: "+234 8162345676",
-  whatsappNumber: "+234 8162345676",
-  email: "caccog@gmail.com",
+  /** Two numbers, spaced so the line can wrap on narrow screens. */
+  phone: "+234 703 528 2112, +234 806 896 4853",
+  whatsappNumber: "+2348068964853",
+  email: "Caccog222000@gmail.com",
 
-  /**
-   * Google Maps embed URL (output=embed) — paste the confirmed address embed
-   * here. While empty, a designed placeholder panel is shown instead.
-   */
-  mapEmbedUrl: "",
-  /** Maps "Get directions" deep link — set with the confirmed address. */
-  directionsUrl: "",
+  /** Coordinates used to build the map embed and directions links below. */
+  geo: coords,
+  /** Google Maps embed, centred on the church (output=embed = no API key). */
+  mapEmbedUrl: `https://www.google.com/maps?q=${latLng}&z=17&output=embed`,
+  /** Maps "Get directions" deep link to the church pin. */
+  directionsUrl: `https://www.google.com/maps/dir/?api=1&destination=${latLng}`,
 
   socials: {
-    facebook: "https://web.facebook.com/citadelofgrace.cac",
-    youtube: "", // [LINK to supply]
+    facebook: "https://www.facebook.com/Caccog",
+    youtube: "https://www.youtube.com/@CacCog",
     instagram: "", // [LINK to supply]
-    whatsappChannel: "", // [LINK to supply]
+    /** Channel handle confirmed as "CacCog"; channels need an invite link. */
+    whatsappChannel: "", // [INVITE LINK to supply]
   },
 
   /**
@@ -74,28 +79,35 @@ export const siteSettings = {
       id: "sunday-worship",
       label: "Sunday Worship Service",
       day: "Sunday",
-      time: "7am & 9am",
-      note: "English and Yoruba Services",
+      time: "7:00am-9:00am",
+      note: "English Service",
+    },
+    {
+      id: "sunday-worship-yoruba",
+      label: "Sunday Worship Service",
+      day: "Sunday",
+      time: "10:00am-12:00pm",
+      note: "Yoruba Service",
     },
     {
       id: "midweek",
       label: "Midweek service - Bible Study",
-      day: "Wednessday",
-      time: "5pm",
+      day: "Monday",
+      time: "6:00pm-7:00pm",
     },
     {
-      id: "midweek-prayer",
-      label: "Midweek service - Prayer Meeting",
-      day: "Friday",
-      time: "5pm",
+      id: "thursday-service",
+      label: "Thursday service - Business Class Meeting",
+      day: "Thursday",
+      time: "8:00am-10:00am",
     },
   ] satisfies ServiceTime[],
 
   giving: {
     bank: {
-      accountName: "[Account name]",
-      accountNumber: "[Account number]",
-      bank: "[Bank name]",
+      accountName: "CAC Citadel of Grace",
+      accountNumber: "4110078626",
+      bank: "Fidelity Bank",
     } satisfies BankDetails,
     presets: [
       { label: "₦1,000", amountKobo: 100_000 },

@@ -163,7 +163,7 @@ export function HeroCopy() {
 
         <h1 className="animate-hero-rise delay-hero-1 text-[clamp(3rem,12vw,7rem)] leading-[0.98] font-light tracking-tight text-amber-50 drop-shadow-[0_6px_40px_rgba(26,18,8,0.9)]">
           Citadel{" "}
-          <span className="font-serif text-amber-200/95 italic">of Grace</span>
+          <span className="font-display text-amber-200/95 italic">of Grace</span>
         </h1>
 
         <p className="animate-hero-rise delay-hero-2 mt-7 max-w-xl text-base leading-relaxed font-light text-amber-50/85 drop-shadow-[0_2px_16px_rgba(26,18,8,0.9)] sm:text-lg">

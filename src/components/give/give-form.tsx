@@ -100,11 +100,10 @@ export function GiveForm() {
                   setCustomAmount("");
                 }}
                 aria-pressed={active}
-                className={`min-h-12 rounded-full border px-6 text-sm transition-colors duration-500 ${
-                  active
+                className={`min-h-12 rounded-full border px-6 text-sm transition-colors duration-500 ${active
                     ? "border-orange bg-orange/15 text-ember"
                     : "hover:border-orange/50 border-white/20 text-white/80"
-                }`}
+                  }`}
               >
                 {p.label}
               </button>
@@ -140,11 +139,10 @@ export function GiveForm() {
                 type="button"
                 onClick={() => setPurpose(p.id)}
                 aria-pressed={active}
-                className={`min-h-11 rounded-full border px-5 text-sm transition-colors duration-500 ${
-                  active
+                className={`min-h-11 rounded-full border px-5 text-sm transition-colors duration-500 ${active
                     ? "border-ember/60 bg-ember/10 text-ember"
                     : "hover:border-orange/50 border-white/15 text-white/75"
-                }`}
+                  }`}
               >
                 {p.label}
               </button>
@@ -169,11 +167,10 @@ export function GiveForm() {
                 disabled={disabled}
                 onClick={() => setFrequency(f)}
                 aria-pressed={active}
-                className={`min-h-11 rounded-full border px-5 text-sm transition-colors duration-500 ${
-                  active
+                className={`min-h-11 rounded-full border px-5 text-sm transition-colors duration-500 ${active
                     ? "border-orange bg-orange/15 text-ember"
                     : "hover:border-orange/50 border-white/15 text-white/75"
-                } ${disabled ? "cursor-not-allowed opacity-40" : ""}`}
+                  } ${disabled ? "cursor-not-allowed opacity-40" : ""}`}
               >
                 {f === "once" ? "One-time" : "Monthly (recurring)"}
               </button>
@@ -307,11 +304,6 @@ export function BankTransfer() {
           );
         })}
       </dl>
-
-      <p className="mt-5 text-xs text-white/50">
-        Bank details are pending confirmation from church leadership — see
-        CONTENT_TODO.md.
-      </p>
     </div>
   );
 }

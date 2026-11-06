@@ -72,7 +72,7 @@ export function ServiceStrip() {
       className="bg-charcoal/50 border-y border-white/10"
     >
       <div className="container-page">
-        <ul className="grid divide-y divide-white/10 md:grid-cols-2 md:divide-x md:divide-y-0 lg:grid-cols-3">
+        <ul className="grid divide-y divide-white/10 md:grid-cols-2 md:divide-x md:divide-y-0 lg:grid-cols-4">
           {siteSettings.serviceTimes.map((t) => (
             <li
               key={t.id}
@@ -89,7 +89,7 @@ export function ServiceStrip() {
                   className={
                     isPlaceholder(t.time)
                       ? "placeholder-chip"
-                      : "text-ember text-lg md:text-xl"
+                      : "font-display text-ember text-lg md:text-xl"
                   }
                 >
                   {t.time}

@@ -9,54 +9,13 @@ import { faqs } from "@/content/pages";
 import { siteSettings } from "@/content/site";
 import { isPlaceholder } from "@/lib/utils";
 import { PlanAVisit } from "@/components/plan-a-visit/plan-a-visit";
+import { MapPanel } from "@/components/plan-a-visit/map-panel";
 
 export const metadata: Metadata = pageMetadata("/plan-your-visit", {
   title: "Plan Your Visit",
   description:
     "Service times, location, what to expect and how to reach Citadel of Grace — everything a first-time guest needs for a confident visit.",
 });
-
-function MapPanel() {
-  const hasMap = Boolean(siteSettings.mapEmbedUrl);
-
-  if (!hasMap) {
-    return (
-      <div className="border-orange/35 bg-charcoal/50 relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden border border-dashed">
-        <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_45%,rgba(255,122,26,0.1),transparent_70%)]" />
-        <div className="relative px-8 text-center">
-          <p className="eyebrow">Map pending</p>
-          <p className="text-muted mt-3 max-w-sm text-sm leading-relaxed">
-            Once the confirmed address is supplied, the Google map embeds here together
-            with a live &ldquo;Get directions&rdquo; link.
-          </p>
-        </div>
-        <div
-          className="absolute inset-0 opacity-[0.18]"
-          aria-hidden
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-            backgroundSize: "44px 44px",
-            maskImage: "radial-gradient(60% 60% at 50% 50%, black, transparent 80%)",
-          }}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="bg-charcoal/40 relative aspect-[16/10] w-full overflow-hidden border border-white/10">
-      <iframe
-        src={siteSettings.mapEmbedUrl}
-        title={`Map showing the location of ${siteSettings.name}`}
-        className="absolute inset-0 size-full contrast-[1.05] grayscale-[0.25]"
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        allowFullScreen
-      />
-    </div>
-  );
-}
 
 function FaqAccordion() {
   return (
@@ -167,7 +126,7 @@ export default function PlanYourVisitPage() {
                   Parking
                 </p>
                 <p className="text-muted mt-2 text-sm leading-relaxed">
-                  <span className="placeholder-chip">Parking guidance — pending</span>
+                  <span className="text-white/70">Our protocol team will guide you to the parking area</span>
                 </p>
               </div>
               <div className="bg-charcoal/30 border border-white/10 p-5">
@@ -175,7 +134,7 @@ export default function PlanYourVisitPage() {
                   Dress code
                 </p>
                 <p className="text-muted mt-2 text-sm leading-relaxed">
-                  <span className="placeholder-chip">Dress note — pending</span>
+                  <span className="text-white/70">Gorgeously dressed in church attire</span>
                 </p>
               </div>
             </div>

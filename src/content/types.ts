@@ -22,18 +22,22 @@ export interface Sermon {
   featured?: boolean;
 }
 
-export interface ChurchEvent {
+export type ChurchEvent = {
   id: string;
   slug: string;
   title: string;
   description: string;
   /** ISO 8601 with timezone offset, e.g. 2026-11-08T17:00:00+01:00 */
   startsAt: string;
-  endsAt?: string;
+  endsAt: string;
+  /** Set for events running across several days (e.g. a fasting period). */
+  isMultiDay?: boolean;
+  /** Free-text note for each day of a multi-day event. */
+  dailySchedule?: string;
   venue: string;
-  location?: string;
-  imageAlt?: string;
-}
+  location: string;
+  category?: string;
+};
 
 export interface Leader {
   id: string;
