@@ -40,13 +40,13 @@ export function PlanAVisit() {
     return (
         <section
             id="about-hero"
-            className="relative h-[82svh] min-h-[560px] w-full overflow-hidden bg-[#1a1208]"
+            className="relative h[82svh] minh[560px] min-h-[max(900px,40vh)] w-full flex items-center justify-start overflow-hidden bg-[#1a1208]"
             aria-label="About Citadel of Grace"
         >
             {/* Photograph — parallax */}
             <motion.div
                 style={{ y: imageY, scale: imageScale }}
-                className="absolute inset-0 h-[115%] w-full will-change-transform"
+                className="absolute inset-0 h[115%] w-full will-change-transform"
                 aria-hidden
             >
                 <Image

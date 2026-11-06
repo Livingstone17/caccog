@@ -41,7 +41,7 @@ export function HeroImage() {
             {/* The photograph — parallax layer */}
             <motion.div
                 style={{ y, scale }}
-                className="absolute inset-0 h-[115%] w-full will-change-transform"
+                className="absolute inset-0 h[115%] w-full will-change-transform"
             >
                 <Image
                     src={church}

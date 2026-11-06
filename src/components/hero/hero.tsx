@@ -42,10 +42,10 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative h-[200svh]"
+      className="relative h[200svh]"
       aria-label="Welcome to Citadel of Grace Church"
     >
-      <div className="sticky top-0 h-[100svh] overflow-hidden">
+      <div className="stickytop0 min-h-[max(900px,40vh)] h[100svh] overflow-hidden">
         <HeroImage />
         <HeroCopy />
       </div>
