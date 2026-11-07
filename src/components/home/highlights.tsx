@@ -45,6 +45,9 @@ export function WhatToExpect() {
 export function LatestSermon() {
   const sermon = getFeaturedSermon();
 
+  // No messages published yet — hide the section rather than show a placeholder.
+  if (!sermon) return null;
+
   return (
     <Section id="latest-sermon" className="border-y border-black/8 bg-white">
       <SectionHeading

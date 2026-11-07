@@ -1,11 +1,36 @@
 import type { Sermon } from "./types";
 
 /**
- * Sample sermons — titles/speakers/series are placeholders to be replaced
- * from the church's media archive (CONTENT_TODO.md).
- * videoId is intentionally null until real YouTube links are supplied.
+ * No messages have been published yet. While this list is empty the sermons
+ * pages render an "unavailable" notice instead of a fake archive — add real
+ * entries here (or Sanity `sermon` docs) when the media team supplies them.
+ * The six sample entries that used to fill the archive are kept at the bottom
+ * of this file for reference.
  */
-export const sermons: Sermon[] = [
+export const sermons: Sermon[] = [];
+
+export function getSermons(): Sermon[] {
+  return [...sermons].sort((a, b) => (a.date < b.date ? 1 : -1));
+}
+
+export function getFeaturedSermon(): Sermon | undefined {
+  return getSermons()[0];
+}
+
+export function getSermonBySlug(slug: string): Sermon | undefined {
+  return sermons.find((s) => s.slug === slug);
+}
+
+export function getSermonSeries(): string[] {
+  return [...new Set(sermons.map((s) => s.series))];
+}
+
+export function getSermonSpeakers(): string[] {
+  return [...new Set(sermons.map((s) => s.speaker))];
+}
+
+/* Sample entries — shape reference only, intentionally not rendered.
+const sampleSermons: Sermon[] = [
   {
     id: "s-01",
     slug: "sermon-title-01",
@@ -80,23 +105,4 @@ export const sermons: Sermon[] = [
     audioUrl: null,
   },
 ];
-
-export function getSermons(): Sermon[] {
-  return [...sermons].sort((a, b) => (a.date < b.date ? 1 : -1));
-}
-
-export function getFeaturedSermon(): Sermon {
-  return getSermons()[0];
-}
-
-export function getSermonBySlug(slug: string): Sermon | undefined {
-  return sermons.find((s) => s.slug === slug);
-}
-
-export function getSermonSeries(): string[] {
-  return [...new Set(sermons.map((s) => s.series))];
-}
-
-export function getSermonSpeakers(): string[] {
-  return [...new Set(sermons.map((s) => s.speaker))];
-}
+*/

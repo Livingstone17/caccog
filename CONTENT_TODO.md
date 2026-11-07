@@ -64,12 +64,12 @@ faking them — Plan Your Visit shows a designed map placeholder.
 
 ## 6. Sermons
 
-| #   | Item                                                                                                                            | Where                                              |
-| --- | ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| 26  | Real sermon titles, speakers, series, scripture references, excerpts — six sample entries are marked `[Sermon title — 01]` etc. | `src/content/sermons.ts` (or Sanity `sermon` docs) |
-| 27  | YouTube video IDs — currently `null`; the player shows a "Video pending" panel                                                  | same                                               |
-| 28  | Optional audio download URLs                                                                                                    | same `audioUrl`                                    |
-| 29  | Sample dates (Sep–Oct 2026) are illustrative only                                                                               | same                                               |
+| #   | Item                                                                                                                                                                                                                                                               | Where                                              |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------- |
+| 26  | Real sermon titles, speakers, series, scripture references, excerpts. **The archive is currently empty** — `/sermons` shows a "Sermons are not available at the moment" notice and the home page's "Latest message" section is hidden until the first entry exists | `src/content/sermons.ts` (or Sanity `sermon` docs) |
+| 27  | Video URLs — `videoId` is YouTube-only today (`null` per entry); Facebook video needs a `platform` field plus a `FacebookFacade`                                                                                                                                   | same                                               |
+| 28  | Optional audio download URLs                                                                                                                                                                                                                                       | same `audioUrl`                                    |
+| 29  | Sample entries (Sep–Oct 2026) are commented out at the bottom of the file for reference only                                                                                                                                                                       | same                                               |
 
 ## 7. Events
 
