@@ -7,6 +7,8 @@ import { ButtonLink } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { EventCard, SectionHeading } from "@/components/shared/cards";
 import { YouTubeFacade } from "@/components/shared/youtube-facade";
+import { AudioPlayer } from "@/components/sermons/audio-player";
+import { audioMessages, audiomack } from "@/content/audiomack";
 import { isPlaceholder } from "@/lib/utils";
 
 export function WhatToExpect() {
@@ -44,69 +46,119 @@ export function WhatToExpect() {
 
 export function LatestSermon() {
   const sermon = getFeaturedSermon();
+  const latestAudio = audioMessages[0];
 
-  // No messages published yet — hide the section rather than show a placeholder.
-  if (!sermon) return null;
+  // Nothing published yet — hide the section rather than show a placeholder.
+  if (!sermon && !latestAudio) return null;
 
   return (
-    <Section id="latest-sermon" className="border-y border-black/8 bg-white">
+    <Section id="latest-sermon" className="border-y border-white/8">
       <SectionHeading
         eyebrow="Latest message"
-        title="A word for this week"
+        title="Hear the Word"
         href="/sermons"
-        linkLabel="All sermons"
+        linkLabel="All messages"
         align="left"
-        variant="light-bg"
       />
-      <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
-        <Reveal>
-          <YouTubeFacade videoId={sermon.videoId} title={sermon.title} />
-        </Reveal>
+      {!sermon && latestAudio ? (
+        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
+          <Reveal>
+            <AudioPlayer
+              message={latestAudio}
+              handle={audiomack.handle}
+              profileUrl={audiomack.profileUrl}
+            />
+          </Reveal>
 
-        <Reveal delay={0.12} className="flex h-full flex-col justify-center">
-          <p className="text-orange flex flex-wrap items-center gap-3 text-xs tracking-[0.22em] uppercase">
-            <time dateTime={sermon.date}>{formatShortDate(sermon.date)}</time>
-            <span aria-hidden className="text-white/25">
-              /
-            </span>
-            <span className="text-muted">{sermon.series}</span>
-          </p>
+          <Reveal delay={0.12} className="flex h-full flex-col justify-center">
+            <p className="text-orange text-xs tracking-[0.22em] uppercase">
+              <time dateTime={latestAudio.date}>{formatShortDate(latestAudio.date)}</time>
+            </p>
 
-          <h3 className="font-display mt-5 text-3xl leading-snug font-light text-white md:text-[2.5rem]">
-            {isPlaceholder(sermon.title) ? (
-              <span className="placeholder-chip">{sermon.title}</span>
-            ) : (
-              sermon.title
-            )}
-          </h3>
+            <h3 className="font-display mt-5 text-3xl leading-snug font-light text-white md:text-[2.5rem]">
+              {latestAudio.title}
+            </h3>
 
-          <dl className="mt-7 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-white/10 pt-6 text-sm">
-            <div>
-              <dt className="text-orange/80 text-[0.62rem] tracking-[0.28em] uppercase">
-                Speaker
-              </dt>
-              <dd className="mt-1.5 text-white">{sermon.speaker}</dd>
+            <dl className="mt-7 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-white/10 pt-6 text-sm">
+              <div>
+                <dt className="text-orange/80 text-[0.62rem] tracking-[0.28em] uppercase">
+                  Credit
+                </dt>
+                <dd className="mt-1.5 text-white">Feat. {latestAudio.credit}</dd>
+              </div>
+              <div>
+                <dt className="text-orange/80 text-[0.62rem] tracking-[0.28em] uppercase">
+                  Length
+                </dt>
+                <dd className="mt-1.5 text-white">{latestAudio.duration}</dd>
+              </div>
+            </dl>
+
+            <p className="text-muted mt-6 max-w-lg text-sm leading-relaxed">
+              Full recordings of our messages are hosted on the church&apos;s Audiomack
+              account — listen here, or carry on in the Audiomack app.
+            </p>
+
+            <div className="mt-9 flex flex-wrap gap-4">
+              <ButtonLink href="/sermons">All messages</ButtonLink>
+              <ButtonLink href={audiomack.profileUrl} variant="ghost" external>
+                Open on Audiomack
+              </ButtonLink>
             </div>
-            <div>
-              <dt className="text-orange/80 text-[0.62rem] tracking-[0.28em] uppercase">
-                Scripture
-              </dt>
-              <dd className="mt-1.5 text-white">{sermon.scripture ?? "—"}</dd>
+          </Reveal>
+        </div>
+      ) : null}
+      {sermon ? (
+        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
+          <Reveal>
+            <YouTubeFacade videoId={sermon.videoId} title={sermon.title} />
+          </Reveal>
+
+          <Reveal delay={0.12} className="flex h-full flex-col justify-center">
+            <p className="text-orange flex flex-wrap items-center gap-3 text-xs tracking-[0.22em] uppercase">
+              <time dateTime={sermon.date}>{formatShortDate(sermon.date)}</time>
+              <span aria-hidden className="text-white/25">
+                /
+              </span>
+              <span className="text-muted">{sermon.series}</span>
+            </p>
+
+            <h3 className="font-display mt-5 text-3xl leading-snug font-light text-white md:text-[2.5rem]">
+              {isPlaceholder(sermon.title) ? (
+                <span className="placeholder-chip">{sermon.title}</span>
+              ) : (
+                sermon.title
+              )}
+            </h3>
+
+            <dl className="mt-7 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-white/10 pt-6 text-sm">
+              <div>
+                <dt className="text-orange/80 text-[0.62rem] tracking-[0.28em] uppercase">
+                  Speaker
+                </dt>
+                <dd className="mt-1.5 text-white">{sermon.speaker}</dd>
+              </div>
+              <div>
+                <dt className="text-orange/80 text-[0.62rem] tracking-[0.28em] uppercase">
+                  Scripture
+                </dt>
+                <dd className="mt-1.5 text-white">{sermon.scripture ?? "—"}</dd>
+              </div>
+            </dl>
+
+            <p className="text-muted mt-6 max-w-lg text-sm leading-relaxed">
+              {sermon.excerpt}
+            </p>
+
+            <div className="mt-9 flex flex-wrap gap-4">
+              <ButtonLink href={`/sermons/${sermon.slug}`}>Listen now</ButtonLink>
+              <ButtonLink href="/sermons" variant="ghost">
+                Browse archive
+              </ButtonLink>
             </div>
-          </dl>
-
-          <p className="text-muted mt-6 max-w-lg text-sm leading-relaxed">
-            {sermon.excerpt}
-          </p>
-
-          <div className="mt-9 flex flex-wrap gap-4">
-            <ButtonLink href={`/sermons/${sermon.slug}`}>Listen now</ButtonLink>
-            <ButtonLink href="/sermons" variant="ghost">
-              Browse archive
-            </ButtonLink>
-          </div>
-        </Reveal>
-      </div>
+          </Reveal>
+        </div>
+      ) : null}
     </Section>
   );
 }

@@ -1,4 +1,5 @@
 import type { BankDetails, GivingPreset, ServiceTime } from "./types";
+import { audiomack } from "./audiomack";
 
 /** Confirmed church coordinates — 6.616859° N, 3.301371° E. */
 const coords = { lat: 6.616859, lng: 3.301371 } as const;
@@ -48,6 +49,8 @@ export const siteSettings = {
   socials: {
     facebook: "https://www.facebook.com/Caccog",
     youtube: "https://www.youtube.com/@CacCog",
+    /** Sermon recordings are published here — confirmed by the media team. */
+    audiomack: audiomack.profileUrl,
     instagram: "", // [LINK to supply]
     /** Channel handle confirmed as "CacCog"; channels need an invite link. */
     whatsappChannel: "", // [INVITE LINK to supply]

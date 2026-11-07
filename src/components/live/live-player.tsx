@@ -3,9 +3,13 @@
 import { useState } from "react";
 import Image from "next/image";
 import { siteSettings } from "@/content/site";
+import { audioMessages, audiomack } from "@/content/audiomack";
+import { AudioPlayer } from "@/components/sermons/audio-player";
+import { ButtonLink } from "@/components/ui/button";
 import { cn, isPlaceholder } from "@/lib/utils";
 
 const live = siteSettings.livestream;
+const latestAudio = audioMessages[0];
 
 function isChannelId(id: string) {
   return id.startsWith("UC");
@@ -22,9 +26,9 @@ function embedUrl(id: string) {
  * Livestream player for the /live page.
  *
  * Click-to-load: no third-party request until the visitor presses play
- * (same privacy posture as the sermon facades). While no YouTube live ID
- * has been supplied it renders the confirmed external watch link plus an
- * honest "pending" panel — never a broken embed.
+ * (same privacy posture as the sermon facades). While no YouTube live ID has
+ * been supplied the page still has something to listen to — the newest
+ * recording from the church's Audiomack account.
  */
 export function LivePlayer({ className }: { className?: string }) {
   const [playing, setPlaying] = useState(false);
@@ -47,36 +51,34 @@ export function LivePlayer({ className }: { className?: string }) {
     );
   }
 
+  // No stream configured — play the latest recording instead of an empty panel.
   if (!id) {
     return (
-      <div
-        className={cn(
-          // Content-first on phones: a fixed 16:9 box is too short for the pending
-          // panel's copy + button, so it only takes the video ratio from `sm` up.
-          "border-orange/35 bg-charcoal/60 relative flex w-full flex-col items-center justify-center overflow-hidden border border-dashed px-5 py-10 text-center sm:aspect-video sm:px-0 sm:py-0",
-          className,
-        )}
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(255,122,26,0.12),transparent_70%)]" />
-        <span className="eyebrow relative">Stream pending</span>
-        <p className="text-muted relative mt-3 max-w-sm text-sm leading-relaxed text-pretty px-0 sm:px-6">
-          The live player will appear here once the media team supplies the YouTube live
-          channel or video ID. Until then, join us on the channel below.
-        </p>
-        {live.watchUrl && !isPlaceholder(live.watchUrl) && (
-          <a
-            href={live.watchUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border-orange/60 bg-orange hover:bg-orange-bright hover:border-orange-bright mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full border px-7 py-3 text-[0.8rem] font-medium tracking-[0.22em] text-black uppercase transition-[background-color,border-color] duration-500"
-          >
-            {live.watchLabel}
-            <svg viewBox="0 0 24 24" className="size-3.5" fill="currentColor" aria-hidden>
-              <path d="M14 5h5v5h-2V8.4l-5.3 5.3-1.4-1.4L15.6 7H14V5Z" />
-              <path d="M6 7h4v2H8v8h8v-2h2v4H6V7Z" />
-            </svg>
-          </a>
-        )}
+      <div className={cn("grid gap-10 lg:grid-cols-2 lg:gap-14", className)}>
+        <AudioPlayer
+          message={latestAudio}
+          handle={audiomack.handle}
+          profileUrl={audiomack.profileUrl}
+          eyebrow="Latest recording"
+        />
+
+        <div className="flex flex-col justify-center">
+          <p className="eyebrow">Off air</p>
+          <h2 className="font-display mt-4 text-3xl leading-snug font-light text-white md:text-4xl">
+            No live stream right now
+          </h2>
+          <p className="text-muted mt-4 max-w-md text-sm leading-relaxed">
+            The stream will appear here whenever we go live. Until then, listen to the
+            latest message from our archive — every recording is hosted on Audiomack.
+          </p>
+          {live.watchUrl && !isPlaceholder(live.watchUrl) && (
+            <div className="mt-8">
+              <ButtonLink href={live.watchUrl} variant="ghost" external>
+                {live.watchLabel}
+              </ButtonLink>
+            </div>
+          )}
+        </div>
       </div>
     );
   }

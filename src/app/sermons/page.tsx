@@ -5,7 +5,9 @@ import { Section } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { YouTubeFacade } from "@/components/shared/youtube-facade";
+import { AudioArchive } from "@/components/sermons/audio-archive";
 import { SermonExplorer } from "@/components/sermons/explorer";
+import { audioMessages, audiomack } from "@/content/audiomack";
 import {
   getFeaturedSermon,
   getSermonSeries,
@@ -19,7 +21,7 @@ import sermonsImage from "@/app/preaching2.jpg";
 export const metadata: Metadata = pageMetadata("/sermons", {
   title: "Sermons",
   description:
-    "Watch and listen to messages from Citadel of Grace — search the archive by series, speaker, scripture and date.",
+    "Listen to full recordings of messages from Citadel of Grace — sermon audio from our services, free to stream.",
 });
 
 export default async function SermonsPage() {
@@ -31,37 +33,30 @@ export default async function SermonsPage() {
       <PageHeader
         eyebrow="The Word"
         title="Sermons"
-        intro="Messages of faith, hope and practical life — search by series, speaker or scripture."
+        intro="Messages of faith, hope and practical life — recorded in full from our services, free to listen to any time."
         image={sermonsImage.src}
         imagePosition="50% 20%"
       />
 
       {!featured ? (
         <Section
-          id="sermons-unavailable"
-          align="center"
+          id="listen"
+          align="left"
           className="bg-charcoal/25 border-t border-white/8"
+          eyebrow="Audio messages"
+          title="Listen to recent messages"
+          intro="Full recordings from our services, hosted on Audiomack. Choose a message to listen right here, or open the account for the rest of the archive."
         >
-          <Reveal>
-            <div className="border-orange/35 relative mx-auto max-w-2xl overflow-hidden border border-dashed p-10 text-center md:p-14">
-              <div
-                className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(255,122,26,0.12),transparent_70%)]"
-                aria-hidden
-              />
-              <h2 className="font-display relative text-3xl leading-snug font-light text-white md:text-4xl">
-                Sermons are not available at the moment
-              </h2>
-              <p className="text-muted relative mx-auto mt-4 max-w-md text-sm leading-relaxed md:text-base">
-                You will be notified when new sermons are uploaded. In the meantime, you
-                are welcome to worship with us any Sunday.
-              </p>
-              <div className="relative mt-8 flex justify-center">
-                <ButtonLink href="/plan-your-visit" variant="ghost">
-                  Plan your visit
-                </ButtonLink>
-              </div>
-            </div>
-          </Reveal>
+          <AudioArchive
+            messages={audioMessages}
+            handle={audiomack.handle}
+            profileUrl={audiomack.profileUrl}
+          />
+          <div className="mt-10">
+            <ButtonLink href={audiomack.profileUrl} variant="ghost" external>
+              Open on Audiomack
+            </ButtonLink>
+          </div>
         </Section>
       ) : (
         <>

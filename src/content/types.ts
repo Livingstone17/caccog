@@ -22,6 +22,19 @@ export interface Sermon {
   featured?: boolean;
 }
 
+export interface AudioMessage {
+  /** Audiomack song id — used by the official embed and the track page. */
+  id: string;
+  /** Title exactly as published on Audiomack. */
+  title: string;
+  /** ISO yyyy-mm-dd release date reported by Audiomack. */
+  date: string;
+  /** Length exactly as Audiomack prints it, e.g. "1:21:34". */
+  duration: string;
+  /** Credit exactly as Audiomack publishes it, e.g. "PST. SAM BABATOPE". */
+  credit: string;
+}
+
 export type ChurchEvent = {
   id: string;
   slug: string;
@@ -56,7 +69,6 @@ export interface Leader {
 //   meetingTime: string;
 //   leader: string;
 // }
-
 
 export type Ministry = {
   id: string;

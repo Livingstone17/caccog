@@ -8,7 +8,11 @@ import { getUpcomingEvents } from "@/content/events";
 // import { NewsletterForm } from "@/components/site/newsletter-form";
 import { isPlaceholder } from "@/lib/utils";
 
-function SocialIcon({ label }: { label: "facebook" | "youtube" | "instagram" }) {
+function SocialIcon({
+  label,
+}: {
+  label: "facebook" | "youtube" | "audiomack" | "instagram";
+}) {
   const href = siteSettings.socials[label];
   if (!href) return null;
 
@@ -19,6 +23,15 @@ function SocialIcon({ label }: { label: "facebook" | "youtube" | "instagram" }) 
     youtube: (
       <path d="M21.6 7.2C21.4 6.5 20.9 6 20.2 5.8C18.9 5.5 12 5.5 12 5.5C12 5.5 5.1 5.5 3.8 5.8C3.1 6 2.6 6.5 2.4 7.2C2.1 8.5 2.1 12 2.1 12C2.1 12 2.1 15.5 2.4 16.8C2.6 17.5 3.1 18 3.8 18.2C5.1 18.5 12 18.5 12 18.5C12 18.5 18.9 18.5 20.2 18.2C20.9 18 21.4 17.5 21.6 16.8C21.9 15.5 21.9 12 21.9 12C21.9 12 21.9 8.5 21.6 7.2ZM9.9 15.1V8.9L15.2 12L9.9 15.1Z" />
     ),
+    audiomack: (
+      <g>
+        <rect x="2.6" y="9.6" width="2.2" height="4.8" rx="1.1" />
+        <rect x="6.5" y="6.4" width="2.2" height="11.2" rx="1.1" />
+        <rect x="10.4" y="3.2" width="2.2" height="17.6" rx="1.1" />
+        <rect x="14.3" y="7.6" width="2.2" height="8.8" rx="1.1" />
+        <rect x="18.2" y="10.4" width="2.2" height="3.2" rx="1.1" />
+      </g>
+    ),
     instagram: (
       <path d="M12 8.2C10.5 8.2 9.2 9.4 9.2 11C9.2 12.5 10.5 13.8 12 13.8C13.5 13.8 14.8 12.5 14.8 11C14.8 9.4 13.5 8.2 12 8.2ZM8.1 11C8.1 8.8 9.9 7 12 7C14.1 7 15.9 8.8 15.9 11C15.9 13.1 14.1 15 12 15C9.9 15 8.1 13.1 8.1 11ZM17 6.9C17 7.5 16.5 8 15.9 8C15.3 8 14.9 7.5 14.9 6.9C14.9 6.3 15.3 5.9 15.9 5.9C16.5 5.9 17 6.3 17 6.9ZM19.9 8C19.8 6.9 19.6 6 18.9 5.3C18.2 4.6 17.3 4.4 16.2 4.3C15.1 4.2 11.9 4.2 10.8 4.3C9.7 4.4 8.8 4.6 8.1 5.3C7.4 6 7.2 6.9 7.1 8C7 9.1 7 12.9 7.1 14C7.2 15.1 7.4 16 8.1 16.7C8.8 17.4 9.7 17.6 10.8 17.7C11.9 17.8 15.1 17.8 16.2 17.7C17.3 17.6 18.2 17.4 18.9 16.7C19.6 16 19.8 15.1 19.9 14C20 12.9 20 9.1 19.9 8ZM18.8 15.2C18.6 15.7 18.2 16.1 17.7 16.3C17 16.6 15.2 16.5 12 16.5C8.8 16.5 7 16.6 6.3 16.3C5.8 16.1 5.4 15.7 5.2 15.2C4.9 14.5 5 12.7 5 9.5C5 6.3 4.9 4.5 5.2 3.8C5.4 3.3 5.8 2.9 6.3 2.7C7 2.4 8.8 2.5 12 2.5C15.2 2.5 17 2.4 17.7 2.7C18.2 2.9 18.6 3.3 18.8 3.8C19.1 4.5 19 6.3 19 9.5C19 12.7 19.1 14.5 18.8 15.2Z" />
     ),
@@ -27,6 +40,7 @@ function SocialIcon({ label }: { label: "facebook" | "youtube" | "instagram" }) 
   const names: Record<typeof label, string> = {
     facebook: "Facebook",
     youtube: "YouTube",
+    audiomack: "Audiomack",
     instagram: "Instagram",
   };
 
@@ -66,6 +80,7 @@ export function Footer() {
           <div className="mt-6 flex flex-wrap gap-3">
             <SocialIcon label="facebook" />
             <SocialIcon label="youtube" />
+            <SocialIcon label="audiomack" />
             <SocialIcon label="instagram" />
           </div>
           {/* Newsletter signup paused until the email provider is confirmed.
@@ -153,7 +168,10 @@ export function Footer() {
             <Link href="/privacy" className="hover:text-white/80">
               Privacy
             </Link>
-            <span className="text-orange/60">Built with grace by <span className="text-white/60">Phos Creations Hub</span></span>
+            <span className="text-orange/60">
+              Built with grace by{" "}
+              <span className="text-white/60">Phos Creations Hub</span>
+            </span>
           </div>
         </div>
       </div>
