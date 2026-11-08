@@ -1,3 +1,13 @@
+import type { StaticImageData } from "next/image";
+
+export type Leader = {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  photoUrl?: string | StaticImageData | null; // <--- UPDATE THIS LINE
+};
+
 export interface ServiceTime {
   id: string;
   label: string;
@@ -52,13 +62,13 @@ export type ChurchEvent = {
   category?: string;
 };
 
-export interface Leader {
-  id: string;
-  name: string;
-  role: string;
-  bio: string;
-  photoUrl: string | null;
-}
+// export interface Leader {
+//   id: string;
+//   name: string;
+//   role: string;
+//   bio: string;
+//   photoUrl: string | null;
+// }
 
 // export interface Ministry {
 //   id: string;

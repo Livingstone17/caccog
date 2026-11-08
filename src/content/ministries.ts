@@ -123,9 +123,11 @@
 // }
 
 
-
-
 import type { Leader, Ministry } from "./types";
+import rocket from "/public/rocket.jpg"
+import mummy from "/public/mummy-go.jpeg"
+import sermonsImage from "@/app/preaching2.jpg";
+
 
 /** Names and bios are placeholders — supply real leaders (CONTENT_TODO.md). */
 export const leaders: Leader[] = [
@@ -134,21 +136,21 @@ export const leaders: Leader[] = [
     name: "Pastor Samuel Babatope",
     role: "Senior Pastor",
     bio: "He is the shepherd of the church under the leadership of Jesus; He oversees the overall affairs of the church, provides leadership of the congregation, and pastoral care for the people of God",
-    photoUrl: null,
+    photoUrl: sermonsImage,
   },
   {
     id: "l-02",
     name: "Pst Mrs Busayo Babatope",
     role: "Sunday school ministry leader",
     bio: "She is the leader of the Sunday school ministry. She is a dedicated and passionate teacher who is committed to teaching the word of God to the children.",
-    photoUrl: null,
+    photoUrl: mummy,
   },
   {
     id: "l-03",
     name: "Mrs Debbie Opeyemi ",
     role: "Administrative department leader",
     bio: "She is the leader of the administrative department; she is responsible for the coordination and management of the administrative affairs of the church.",
-    photoUrl: null,
+    photoUrl: rocket,
   },
   {
     id: "l-04",
