@@ -74,7 +74,7 @@ export const siteSettings = {
     watchLabel: "Watch on Facebook",
     /** Streaming schedule note shown under the player. */
     scheduleNote:
-      "[Streaming schedule — e.g. every Sunday service streams live — to confirm]",
+      "Streaming schedule — Every Sunday service streams live — 7am",
   },
 
   serviceTimes: [
