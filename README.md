@@ -6,10 +6,7 @@ signature 3D hero, while staying fast, accessible and SEO-friendly — a
 first-time visitor should find service times, the address and the livestream
 in under 10 seconds on a phone.
 
-> **Status:** Phase 1 (MVP) complete as a build. All church-specific facts are
-> placeholders — see **[CONTENT_TODO.md](./CONTENT_TODO.md)** before launch.
 
----
 
 ## Quick start
 
