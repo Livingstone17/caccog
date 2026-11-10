@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { PageHeader } from "@/components/ui/page-header";
 import { Section } from "@/components/ui/section";
 import { EventExplorer } from "@/components/events/explorer";
-import { getEvents } from "@/content/events";
+import { loadEvents } from "@/content";
 
 export const metadata: Metadata = pageMetadata("/events", {
   title: "Events",
@@ -11,8 +11,8 @@ export const metadata: Metadata = pageMetadata("/events", {
     "Upcoming events, gatherings and special services at Citadel of Grace — browse by month and add them to your calendar.",
 });
 
-export default function EventsPage() {
-  const events = getEvents();
+export default async function EventsPage() {
+  const events = await loadEvents();
 
   return (
     <>

@@ -1,6 +1,5 @@
 import { expectCards } from "@/content/pages";
-import { getFeaturedSermon } from "@/content/sermons";
-import { getUpcomingEvents } from "@/content/events";
+import { loadFeaturedSermon, loadUpcomingEvents } from "@/content";
 import { formatShortDate } from "@/lib/format";
 import { Reveal } from "@/components/ui/reveal";
 import { ButtonLink } from "@/components/ui/button";
@@ -44,8 +43,8 @@ export function WhatToExpect() {
   );
 }
 
-export function LatestSermon() {
-  const sermon = getFeaturedSermon();
+export async function LatestSermon() {
+  const sermon = await loadFeaturedSermon();
   const latestAudio = audioMessages[0];
 
   // Nothing published yet — hide the section rather than show a placeholder.
@@ -163,8 +162,8 @@ export function LatestSermon() {
   );
 }
 
-export function UpcomingEvents() {
-  const events = getUpcomingEvents(3);
+export async function UpcomingEvents() {
+  const events = await loadUpcomingEvents(3);
 
   return (
     <Section id="events">

@@ -8,12 +8,7 @@ import { YouTubeFacade } from "@/components/shared/youtube-facade";
 import { AudioArchive } from "@/components/sermons/audio-archive";
 import { SermonExplorer } from "@/components/sermons/explorer";
 import { audioMessages, audiomack } from "@/content/audiomack";
-import {
-  getFeaturedSermon,
-  getSermonSeries,
-  getSermonSpeakers,
-  getSermons,
-} from "@/content/sermons";
+import { loadSermonSeries, loadSermonSpeakers, loadSermons } from "@/content";
 import { formatShortDate } from "@/lib/format";
 import { isPlaceholder } from "@/lib/utils";
 import sermonsImage from "@/app/preaching2.jpg";
@@ -25,8 +20,12 @@ export const metadata: Metadata = pageMetadata("/sermons", {
 });
 
 export default async function SermonsPage() {
-  const sermons = getSermons();
-  const featured = getFeaturedSermon();
+  const [sermons, series, speakers] = await Promise.all([
+    loadSermons(),
+    loadSermonSeries(),
+    loadSermonSpeakers(),
+  ]);
+  const featured = sermons[0];
 
   return (
     <>
@@ -103,11 +102,7 @@ export default async function SermonsPage() {
             eyebrow="Archive"
             title="All messages"
           >
-            <SermonExplorer
-              sermons={sermons}
-              series={getSermonSeries()}
-              speakers={getSermonSpeakers()}
-            />
+            <SermonExplorer sermons={sermons} series={series} speakers={speakers} />
           </Section>
         </>
       )}

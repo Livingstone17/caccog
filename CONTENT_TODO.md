@@ -51,7 +51,7 @@ is linked in the footer icons and included in the structured data `sameAs` list.
 
 | #   | Item                                                                                       | Where                                                              |
 | --- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| 18  | Pastor's real name (placeholder `"[Pastor name]"`)                                         | `leaders` in `src/content/ministries.ts` (or Sanity `leader` docs) |
+| 18  | Pastor's real name (placeholder `"[Pastor name]"`)                                         | `leaders` in `src/content/ministries.ts` (or Sanity `staffProfile` docs) |
 | 19  | Roles for the other three leaders (`"[Role to confirm]"`)                                  | same                                                               |
 | 20  | Short bios for each leader                                                                 | same                                                               |
 | 21  | Portrait photos (with permission) — an elegant placeholder portrait renders until supplied | same (`photoUrl`)                                                  |
@@ -85,7 +85,7 @@ would need the files supplied separately.
 | --- | ------------------------------------------------------------------------ | ------------------------------------------------------ |
 | 30  | Real upcoming events: titles, descriptions, venue, address               | `src/content/events.ts` (or Sanity `churchEvent` docs) |
 | 31  | **Sample dates (Nov–Dec 2026) are illustrative** — replace before launch | same                                                   |
-| 32  | Event photos (optional; design works without them)                       | Sanity `image` support can be added                    |
+| 32  | Event photos (optional; design works without them)                       | Sanity `bannerImage` field                             |
 
 **Rehoboth fasting and prayer** runs 1–22 Nov 2026, so it is marked
 `isMultiDay`; the calendar marks every day it spans, and its `dailySchedule`
@@ -157,9 +157,11 @@ Written as neutral, warm draft copy — please read and approve or rewrite:
 
 - Rate limiter and receipt de-duplication are **in-memory** (fine for one
   server). Move to Upstash/Redis or KV when running multi-region.
-- Sanity content layer currently reads sermons, events, leaders, ministries.
-  `announcement` and `siteSettings` schemas exist in the studio but are not yet
-  wired to pages (Phase 2, along with the blog/announcements module).
+- Sanity content layer reads sermons, events, staff profiles and ministries.
+  The Studio also ships `blogPost`, `announcement` and `siteSettings` schemas;
+  blog and announcements are not yet wired to pages (Phase 2). Publishing
+  triggers the `/api/revalidate` webhook, so new sermons/events appear without
+  a redeploy once `SANITY_REVALIDATE_SECRET` is set in both places.
 
 ---
 

@@ -20,15 +20,15 @@ pnpm dev          # http://localhost:3000
 
 Useful scripts:
 
-| Command                        | What it does                                                                |
-| ------------------------------ | --------------------------------------------------------------------------- |
-| `pnpm dev`                     | Dev server (Turbopack)                                                      |
-| `pnpm build`                   | Production build (all pages prerendered)                                    |
-| `pnpm start`                   | Serve the production build                                                  |
-| `pnpm lint`                    | ESLint (flat config, react-hooks v6 rules)                                  |
-| `pnpm typecheck`               | Strict TypeScript, no emit                                                  |
-| `pnpm format` / `format:check` | Prettier (Tailwind class sorting)                                           |
-| `pnpm studio`                  | Sanity Studio at `http://localhost:3333` (needs `SANITY_STUDIO_PROJECT_ID`) |
+| Command                        | What it does                                                                                  |
+| ------------------------------ | --------------------------------------------------------------------------------------------- |
+| `pnpm dev`                     | Dev server (Turbopack)                                                                        |
+| `pnpm build`                   | Production build (all pages prerendered)                                                      |
+| `pnpm start`                   | Serve the production build                                                                    |
+| `pnpm lint`                    | ESLint (flat config, react-hooks v6 rules)                                                    |
+| `pnpm typecheck`               | Strict TypeScript, no emit                                                                    |
+| `pnpm format` / `format:check` | Prettier (Tailwind class sorting)                                                             |
+| `pnpm studio`                  | Standalone Sanity Studio on `http://localhost:3333` (the same editor also ships at `/studio`) |
 
 Copy `.env.example` → `.env` and fill in keys as they arrive (Paystack,
 Resend, Sanity, Brevo). The site runs fully without them — payments, email and
@@ -101,13 +101,22 @@ font pair, target ≤250 KB initial JS excluding the lazy 3D chunk.
 - **Local content (default):** `src/content/` — typed TS modules with
   clearly-marked placeholders. Everything bracketed renders as a styled
   "pending" chip; links disable themselves rather than faking facts.
-- **Sanity (optional):** `SANITY_STUDIO_PROJECT_ID` + `SANITY_PROJECT_ID`
-  activate GROQ queries in `src/lib/sanity.ts` for **sermons, events, leaders
-  and ministries**, with automatic fallback to local content on error.
-  Schemas for `announcement` and `siteSettings` ship ready for Phase 2.
-- Staff editing: `pnpm studio` → Sermons, Events, Leadership, Ministries,
-  Announcements, Site settings. Portable Text renders through the same
-  excerpt mapper, so no code changes are needed to publish.
+- **Sanity (optional):** set `NEXT_PUBLIC_SANITY_PROJECT_ID` and
+  `NEXT_PUBLIC_SANITY_DATASET` to serve **sermons, events, staff and
+  ministries** from GROQ queries (`src/sanity/`), with automatic fallback to
+  local content whenever the CMS is unconfigured, empty or unreachable.
+- Staff editing: the Studio is part of the app at **`/studio`** (and
+  `pnpm studio` for the standalone CLI server). Sidebar: Sermons, Events, Blog
+  posts, Staff, Ministries, Announcements, Site settings.
+- Content types live one-per-file in `sanity/schemaTypes/documents/`, with the
+  reusable rich-text object in `objects/`. Adding a type is one file plus an
+  entry in `sanity/schemaTypes/index.ts`.
+- **On-demand revalidation:** `POST /api/revalidate` clears the tagged cache for
+  the type that changed, so publishing appears without a redeploy. Configure it
+  in Sanity → API → Webhooks: URL `https://<domain>/api/revalidate`, projection
+  `{"_type": _type, "slug": slug.current}`, header
+  `Authorization: Bearer $SANITY_REVALIDATE_SECRET`. No write token is used
+  anywhere in the site.
 
 ---
 
@@ -146,15 +155,24 @@ human.
 
 ```
 src/
-  app/                 routes, metadata files, API route handlers
+  app/
+    (site)/            the public website: its own layout, pages, 404
+    studio/            Sanity Studio mounted at /studio
+    api/               route handlers (incl. the Sanity revalidation webhook)
+    sitemap.ts  robots.ts  opengraph-image.tsx
   components/
     hero/ three/       the 3D experience
     home/ site/        page sections + chrome (nav, footer, cursor, scroll)
     ui/ shared/        design-system primitives and content components
   content/             placeholder content + content-access layer (CMS fallback)
-  lib/                 paystack, email, sanity, jsonld, ics, rate-limit, …
-sanity/                Studio schemas
-CONTENT_TODO.md         every placeholder + open [CONFIRM] item
+  lib/                 paystack, email, sanity (mapping), jsonld, ics, …
+  sanity/              env, client, GROQ queries, tagged fetch, image URLs
+sanity/
+  schemaTypes/         documents/ (sermon, churchEvent, blogPost, staffProfile,
+                       ministry, announcement, siteSettings) + objects/
+  structure.ts         Studio sidebar
+sanity.config.ts       Studio config (basePath /studio)
+CONTENT_TODO.md        every placeholder + open [CONFIRM] item
 ```
 
 ## Deploy (Vercel)
@@ -162,9 +180,12 @@ CONTENT_TODO.md         every placeholder + open [CONFIRM] item
 1. Import the repo, framework preset **Next.js** (defaults are fine).
 2. Set env vars: `NEXT_PUBLIC_SITE_URL`, Paystack pair (+ optional plan),
    `RESEND_API_KEY`, `EMAIL_FROM`, `CONTACT_INBOX_EMAIL`, `RECEIPT_REPLY_TO`,
-   optional `BREVO_*`, optional `SANITY_*`.
-3. Point the domain, then add the production webhook URL in the Paystack
-   dashboard and submit the sitemap to Search Console.
+   optional `BREVO_*`, and for the CMS `NEXT_PUBLIC_SANITY_PROJECT_ID`,
+   `NEXT_PUBLIC_SANITY_DATASET`, optional `SANITY_API_READ_TOKEN` and
+   `SANITY_REVALIDATE_SECRET`.
+3. Point the domain, then add the production webhook URLs in the Paystack
+   dashboard and in Sanity (see Content & CMS), and submit the sitemap to
+   Search Console.
 
 ## Roadmap (Phase 2, per PRD)
 

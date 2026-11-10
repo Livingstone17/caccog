@@ -7,7 +7,10 @@ import { Reveal } from "@/components/ui/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { YouTubeFacade } from "@/components/shared/youtube-facade";
 import { ShareBar } from "@/components/shared/share-bar";
-import { getSermonBySlug, getSermons } from "@/content/sermons";
+import { AudioPlayer } from "@/components/sermons/audio-player";
+import { audiomack } from "@/content/audiomack";
+import { loadSermonBySlug, loadSermons } from "@/content";
+import type { AudioMessage } from "@/content/types";
 import { formatDate } from "@/lib/format";
 import { sermonJsonLd } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/metadata";
@@ -19,7 +22,7 @@ export async function generateMetadata(
   props: PageProps<"/sermons/[slug]">,
 ): Promise<Metadata> {
   const { slug } = await props.params;
-  const sermon = getSermonBySlug(slug);
+  const sermon = await loadSermonBySlug(slug);
   if (!sermon) return { title: "Sermon not found" };
   return pageMetadata(`/sermons/${sermon.slug}`, {
     title: sermon.title,
@@ -29,20 +32,37 @@ export async function generateMetadata(
       description: sermon.excerpt,
       type: "article",
       publishedTime: sermon.date,
+      images: sermon.coverImageUrl ? [{ url: sermon.coverImageUrl }] : undefined,
     },
   });
 }
 
-export function generateStaticParams() {
-  return getSermons().map((sermon) => ({ slug: sermon.slug }));
+export async function generateStaticParams() {
+  const sermons = await loadSermons();
+  return sermons.map((sermon) => ({ slug: sermon.slug }));
 }
 
 export default async function SermonPage(props: PageProps<"/sermons/[slug]">) {
   const { slug } = await props.params;
-  const sermon = getSermonBySlug(slug);
+  const sermon = await loadSermonBySlug(slug);
   if (!sermon) notFound();
 
   const shareUrl = `${siteUrl}/sermons/${sermon.slug}`;
+
+  /**
+   * The Audiomack player is fed through the same click-to-load facade as the
+   * archive, using the embed URL stored on the sermon document. The message
+   * object only carries what the player's labels need.
+   */
+  const cmsAudio: AudioMessage | null = sermon.audiomackEmbedUrl
+    ? {
+        id: sermon.slug,
+        title: sermon.title,
+        date: sermon.date,
+        duration: "",
+        credit: sermon.speaker,
+      }
+    : null;
 
   return (
     <>
@@ -54,13 +74,27 @@ export default async function SermonPage(props: PageProps<"/sermons/[slug]">) {
         eyebrow={[sermon.series, sermon.speaker].filter(Boolean).join(" · ")}
         title={sermon.title}
         intro={sermon.excerpt}
+        image={sermon.coverImageUrl ?? undefined}
       />
 
       <Section id="message" align="left">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
-          <Reveal>
-            <YouTubeFacade videoId={sermon.videoId} title={sermon.title} />
-          </Reveal>
+          <div>
+            <Reveal>
+              <YouTubeFacade videoId={sermon.videoId} title={sermon.title} />
+            </Reveal>
+            {cmsAudio && sermon.audiomackEmbedUrl ? (
+              <Reveal className="mt-8">
+                <AudioPlayer
+                  message={cmsAudio}
+                  handle={audiomack.handle}
+                  profileUrl={audiomack.profileUrl}
+                  embedUrl={sermon.audiomackEmbedUrl}
+                  eyebrow="Listen to this message"
+                />
+              </Reveal>
+            ) : null}
+          </div>
 
           <Reveal delay={0.1} className="flex flex-col">
             <dl className="divide-y divide-white/10 border-y border-white/10">
@@ -99,7 +133,7 @@ export default async function SermonPage(props: PageProps<"/sermons/[slug]">) {
                 <ButtonLink href={sermon.audioUrl} external>
                   Download audio
                 </ButtonLink>
-              ) : (
+              ) : sermon.audiomackEmbedUrl ? null : (
                 <span className="inline-flex min-h-12 items-center rounded-full border border-dashed border-white/25 px-7 text-[0.8rem] tracking-[0.22em] text-white/50 uppercase">
                   Audio — pending upload
                 </span>

@@ -1,39 +1,29 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
-import {
-  announcement,
-  blockContent,
-  churchEvent,
-  leader,
-  ministry,
-  sermon,
-  siteSettings,
-} from "./sanity/schemaTypes";
+import { schemaTypes } from "./sanity/schemaTypes";
+import { structure } from "./sanity/structure";
+import { dataset, projectId } from "./src/sanity/env";
 
 /**
- * Sanity Studio — run with `pnpm studio` (http://localhost:3333).
+ * Sanity Studio configuration.
  *
- * Requires a Sanity project:
- *   SANITY_STUDIO_PROJECT_ID=xxxx pnpm studio
- * The studio ships with a simple desk (Sermons, Events, Leadership,
- * Ministries, Announcements, Site settings) so non-technical staff can edit
- * without seeing document internals.
+ * The Studio is mounted inside the Next app at /studio (see
+ * `src/app/studio/[[...tool]]/page.tsx`), so the same config powers both
+ * `pnpm dev` and the deployed editor at https://<site>/studio.
+ *
+ * Set NEXT_PUBLIC_SANITY_PROJECT_ID and NEXT_PUBLIC_SANITY_DATASET (see
+ * .env.example). With no project configured the Studio shows Sanity's
+ * "connect a project" screen — the website itself keeps running on local
+ * placeholder content.
  */
 export default defineConfig({
   name: "citadel-of-grace",
   title: "Citadel of Grace CMS",
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID ?? "",
-  dataset: process.env.SANITY_STUDIO_DATASET ?? "production",
-  plugins: [structureTool()],
+  basePath: "/studio",
+  projectId,
+  dataset,
+  plugins: [structureTool({ structure })],
   schema: {
-    types: [
-      sermon,
-      churchEvent,
-      leader,
-      ministry,
-      announcement,
-      siteSettings,
-      blockContent,
-    ],
+    types: schemaTypes,
   },
 });

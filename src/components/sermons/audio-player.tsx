@@ -15,6 +15,11 @@ interface AudioPlayerProps {
   eyebrow?: string;
   /** Start with the embed loaded — used once the visitor has picked a message. */
   autoLoad?: boolean;
+  /**
+   * Full Audiomack embed URL managed in the CMS (`audiomackEmbedUrl`). When
+   * present it is used instead of the URL built from `handle` + `message.id`.
+   */
+  embedUrl?: string | null;
   className?: string;
 }
 
@@ -29,16 +34,19 @@ export function AudioPlayer({
   profileUrl,
   eyebrow = "Audio message",
   autoLoad = false,
+  embedUrl,
   className,
 }: AudioPlayerProps) {
   const [loaded, setLoaded] = useState(autoLoad);
+  const src = embedUrl ?? `https://audiomack.com/embed/song/${handle}/${message.id}`;
+  const openUrl = embedUrl ?? `${profileUrl}/song/${message.id}`;
 
   if (loaded) {
     return (
       <div className={className}>
         <div className="border border-white/10 bg-black">
           <iframe
-            src={`https://audiomack.com/embed/song/${handle}/${message.id}`}
+            src={src}
             title={`Listen: ${message.title}`}
             className="h-[240px] w-full border-0"
             scrolling="no"
@@ -49,7 +57,7 @@ export function AudioPlayer({
         <p className="text-muted mt-4 text-xs leading-relaxed">
           Playing {message.title}. Player not loading?{" "}
           <a
-            href={`${profileUrl}/song/${message.id}`}
+            href={openUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="text-orange hover:text-ember underline underline-offset-4 transition-colors duration-300"
@@ -92,7 +100,8 @@ export function AudioPlayer({
           {message.title}
         </span>
         <span className="text-muted mt-2 block text-[0.62rem] tracking-[0.2em] uppercase">
-          Tap to load the player · {formatShortDate(message.date)} · {message.duration}
+          Tap to load the player · {formatShortDate(message.date)}
+          {message.duration ? ` · ${message.duration}` : ""}
         </span>
       </span>
     </button>

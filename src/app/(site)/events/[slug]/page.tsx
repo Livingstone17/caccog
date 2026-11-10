@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { Section } from "@/components/ui/section";
@@ -6,7 +7,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { AddToCalendarButton } from "@/components/events/add-to-calendar";
 import { ShareBar } from "@/components/shared/share-bar";
-import { getEventBySlug, getEvents } from "@/content/events";
+import { loadEventBySlug, loadEvents } from "@/content";
 import { siteSettings } from "@/content/site";
 import { formatDate, formatEventRange } from "@/lib/format";
 import { eventJsonLd } from "@/lib/jsonld";
@@ -19,7 +20,7 @@ export async function generateMetadata(
   props: PageProps<"/events/[slug]">,
 ): Promise<Metadata> {
   const { slug } = await props.params;
-  const event = getEventBySlug(slug);
+  const event = await loadEventBySlug(slug);
   if (!event) return { title: "Event not found" };
   return pageMetadata(`/events/${event.slug}`, {
     title: event.title,
@@ -28,17 +29,19 @@ export async function generateMetadata(
       title: event.title,
       description: event.description,
       type: "website",
+      images: event.bannerImageUrl ? [{ url: event.bannerImageUrl }] : undefined,
     },
   });
 }
 
-export function generateStaticParams() {
-  return getEvents().map((event) => ({ slug: event.slug }));
+export async function generateStaticParams() {
+  const events = await loadEvents();
+  return events.map((event) => ({ slug: event.slug }));
 }
 
 export default async function EventPage(props: PageProps<"/events/[slug]">) {
   const { slug } = await props.params;
-  const event = getEventBySlug(slug);
+  const event = await loadEventBySlug(slug);
   if (!event) notFound();
 
   const hasDirections = Boolean(siteSettings.directionsUrl);
@@ -61,6 +64,21 @@ export default async function EventPage(props: PageProps<"/events/[slug]">) {
       />
 
       <Section id="event" align="left">
+        {event.bannerImageUrl ? (
+          <Reveal className="mx-auto mb-12 max-w-5xl">
+            <div className="relative aspect-[16/9] overflow-hidden border border-white/10">
+              <Image
+                src={event.bannerImageUrl}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                quality={80}
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+        ) : null}
+
         <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-14">
           <Reveal>
             <div className="surface p-7 md:p-9">

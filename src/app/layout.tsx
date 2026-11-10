@@ -1,11 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
-import { Nav } from "@/components/site/nav";
-import { Footer } from "@/components/site/footer";
-import { Cursor } from "@/components/site/cursor";
-import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { siteSettings } from "@/content/site";
-import { organizationJsonLd } from "@/lib/jsonld";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -61,25 +56,20 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+/**
+ * Root layout — document shell only.
+ *
+ * The public site's chrome lives in `(site)/layout.tsx` so the Sanity Studio
+ * at /studio (which is not inside that route group) renders without the church
+ * navigation, footer, custom cursor or smooth-scroll layer.
+ */
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
       className={`${cormorant.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
-        />
-        <SmoothScroll />
-        <Nav />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <Footer />
-        <Cursor />
-      </body>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }

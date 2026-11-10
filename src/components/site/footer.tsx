@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { NAV_LINKS, siteSettings } from "@/content/site";
-import { getUpcomingEvents } from "@/content/events";
+import { loadUpcomingEvents } from "@/content";
 // Newsletter signup is paused until a real provider (Brevo list) is supplied —
 // uncomment this import together with the block in the footer below.
 // import { NewsletterForm } from "@/components/site/newsletter-form";
@@ -59,8 +59,8 @@ function SocialIcon({
   );
 }
 
-export function Footer() {
-  const upcoming = getUpcomingEvents(2);
+export async function Footer() {
+  const upcoming = await loadUpcomingEvents(2);
 
   return (
     <footer className="grain bg-charcoal/40 relative border-t border-white/10">

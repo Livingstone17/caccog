@@ -30,6 +30,10 @@ export interface Sermon {
   /** Optional downloadable audio URL. */
   audioUrl: string | null;
   featured?: boolean;
+  /** Sanity cover image, already sized for the page backdrop. */
+  coverImageUrl?: string | null;
+  /** Audiomack embed URL managed in the CMS (`audiomackEmbedUrl`). */
+  audiomackEmbedUrl?: string | null;
 }
 
 export interface AudioMessage {
@@ -60,6 +64,8 @@ export type ChurchEvent = {
   venue: string;
   location: string;
   category?: string;
+  /** Sanity banner image, already sized for the event page. */
+  bannerImageUrl?: string | null;
 };
 
 // export interface Leader {
