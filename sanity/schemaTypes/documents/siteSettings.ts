@@ -62,5 +62,13 @@ export const siteSettings = defineType({
     defineField({ name: "youtube", title: "YouTube URL", type: "url" }),
     defineField({ name: "audiomack", title: "Audiomack URL", type: "url" }),
     defineField({ name: "instagram", title: "Instagram URL", type: "url" }),
+    defineField({
+      name: "isLive",
+      title: "Church is live now",
+      type: "boolean",
+      description:
+        "Switches on the pulsing Live dot in the site navigation. Turn it on when the service starts and off when the stream ends.",
+      initialValue: false,
+    }),
   ],
 });

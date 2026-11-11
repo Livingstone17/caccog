@@ -8,7 +8,7 @@ import { SANITY_TAGS, type SanityTag } from "@/sanity/fetch";
  * In Sanity: Project settings → API → Webhooks → Create webhook
  *   URL:     https://<your-domain>/api/revalidate
  *   Triggers: Create, Update, Delete
- *   Filter:  _type in ["sermon", "churchEvent", "blogPost", "staffProfile", "ministry"]
+ *   Filter:  _type in ["sermon", "churchEvent", "blogPost", "staffProfile", "ministry", "siteSettings"]
  *   Projection: {"_type": _type, "slug": slug.current}
  *   HTTP headers: Authorization: Bearer $SANITY_REVALIDATE_SECRET
  *
@@ -40,6 +40,11 @@ const ROUTES: Record<string, { tags: SanityTag[]; paths: string[]; detail?: stri
   ministry: {
     tags: [SANITY_TAGS.ministry],
     paths: ["/", "/ministries", "/sitemap.xml"],
+  },
+  siteSettings: {
+    // Flipping the "church is live" toggle must show up in the nav at once.
+    tags: [SANITY_TAGS.siteSettings],
+    paths: ["/", "/live"],
   },
 };
 

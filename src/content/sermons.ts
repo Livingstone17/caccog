@@ -7,6 +7,19 @@ import type { Sermon } from "./types";
  * The six sample entries that used to fill the archive are kept at the bottom
  * of this file for reference.
  */
+
+import { audioMessages } from "./audiomack";
+import { audioMessagesToSermons } from "./mappers";
+
+/**
+ * Converts Audiomack audio messages to Sermon format so they can be listed
+ * alongside Sanity sermons. The mapping itself lives in `./mappers.ts`.
+ */
+export function getAudioMessagesAsSermons(): Sermon[] {
+  return audioMessagesToSermons(audioMessages);
+}
+
+
 export const sermons: Sermon[] = [];
 
 export function getSermons(): Sermon[] {

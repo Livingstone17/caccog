@@ -16,6 +16,11 @@ interface AudioPlayerProps {
   /** Start with the embed loaded — used once the visitor has picked a message. */
   autoLoad?: boolean;
   /**
+   * Ask Audiomack to begin playback as soon as its player is ready. Only pass
+   * this after a click, since browsers block audio that autoplays on its own.
+   */
+  autoplay?: boolean;
+  /**
    * Full Audiomack embed URL managed in the CMS (`audiomackEmbedUrl`). When
    * present it is used instead of the URL built from `handle` + `message.id`.
    */
@@ -23,10 +28,19 @@ interface AudioPlayerProps {
   className?: string;
 }
 
+function withAutoplay(url: string, autoplay: boolean) {
+  if (!autoplay) return url;
+  return `${url}${url.includes("?") ? "&" : "?"}autoplay=1`;
+}
+
 /**
  * Audiomack's official embed, loaded only after the visitor asks for it — the
  * same click-to-load rule the YouTube facade follows, so no third-party request
  * is made while the page is idle.
+ *
+ * Once invoked, the frame is fetched eagerly and Audiomack is asked to start
+ * playing, so pressing "Listen" moves straight into audio instead of leaving a
+ * blank box behind.
  */
 export function AudioPlayer({
   message,
@@ -34,25 +48,43 @@ export function AudioPlayer({
   profileUrl,
   eyebrow = "Audio message",
   autoLoad = false,
+  autoplay = false,
   embedUrl,
   className,
 }: AudioPlayerProps) {
   const [loaded, setLoaded] = useState(autoLoad);
-  const src = embedUrl ?? `https://audiomack.com/embed/song/${handle}/${message.id}`;
+  const [ready, setReady] = useState(false);
+  const base = embedUrl ?? `https://audiomack.com/embed/song/${handle}/${message.id}`;
+  const src = withAutoplay(base, autoplay);
   const openUrl = embedUrl ?? `${profileUrl}/song/${message.id}`;
 
   if (loaded) {
     return (
       <div className={className}>
-        <div className="border border-white/10 bg-black">
+        <div className="relative border border-white/10 bg-black">
           <iframe
             src={src}
             title={`Listen: ${message.title}`}
-            className="h-[240px] w-full border-0"
-            scrolling="no"
-            loading="lazy"
-            allow="autoplay"
+            className="block h-[252px] w-full border-0"
+            loading="eager"
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+            allowFullScreen
+            onLoad={() => setReady(true)}
           />
+          {!ready && (
+            <div
+              className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/70"
+              role="status"
+              aria-live="polite"
+            >
+              <span className="text-orange/80 text-[0.62rem] tracking-[0.26em] uppercase">
+                Loading player
+              </span>
+              <span className="max-w-[16rem] truncate px-4 text-center text-sm text-white/70">
+                {message.title}
+              </span>
+            </div>
+          )}
         </div>
         <p className="text-muted mt-4 text-xs leading-relaxed">
           Playing {message.title}. Player not loading?{" "}

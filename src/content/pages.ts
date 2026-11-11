@@ -103,6 +103,35 @@ export const faqs: Faq[] = [
   },
 ];
 
+/** Giving FAQ — how transfers are described, confirmed and receipted. */
+export const givingFaqs: Faq[] = [
+  {
+    question: "What should I put as the transfer description?",
+    answer:
+      "Your name and the purpose of the gift — for example “Ada Obi tithe” or “Ada Obi building fund”. That is how the finance team knows whose gift it is and what it was for.",
+  },
+  {
+    question: "How do I confirm a transfer I have made?",
+    answer:
+      "Send a screenshot or photo of your receipt to the church office on WhatsApp or by email, with your name and the purpose of the gift. Both links are in the bank transfer panel above.",
+  },
+  {
+    question: "Will I get a receipt?",
+    answer:
+      "Yes. Once your transfer is confirmed, the office issues a receipt to the email address or WhatsApp number you sent the proof from.",
+  },
+  {
+    question: "Can I give by card, or set up recurring giving?",
+    answer:
+      "Not yet — online card giving and monthly plans are still being set up. Until then you can transfer each month from your bank app, or set a standing order to the church account with your bank.",
+  },
+  {
+    question: "How do I know these account details are genuine?",
+    answer:
+      "These are the church's published account details. If any message ever gives you different details, do not send money — call the church office on the number on our contact page and confirm first.",
+  },
+];
+
 /** Small welcome statement used on Home. */
 export const welcomeStatement =
   "Welcome to our church family. We are a dynamic teaching ministry dedicated to spreading the gospel and equipping believers to become excellent kingdom representatives in the marketplace, following the examples of Daniel and Deborah. Driven by a passion to help young men and women step into the fullness of God’s purpose, we regularly hold conferences, seminars, and workshops focused on mind transformation and excellence in all areas of life."

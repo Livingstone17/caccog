@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { AudioMessage } from "@/content/types";
 import { formatShortDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -27,21 +27,38 @@ export function AudioArchive({
   className,
 }: AudioArchiveProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const playerRef = useRef<HTMLDivElement>(null);
   const active = messages.find((message) => message.id === activeId) ?? null;
   const latest = messages[0];
 
   if (!latest) return null;
 
+  /**
+   * On narrow screens the player sits above the list, so selecting a message
+   * would otherwise change something that is off-screen. Bring it into view.
+   */
+  function select(id: string) {
+    setActiveId(id);
+    if (window.matchMedia("(max-width: 1023px)").matches) {
+      requestAnimationFrame(() => {
+        playerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }
+
   return (
     <div className={cn("grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:gap-14", className)}>
-      <AudioPlayer
-        key={active?.id ?? latest.id}
-        message={active ?? latest}
-        handle={handle}
-        profileUrl={profileUrl}
-        eyebrow="Latest audio"
-        autoLoad={Boolean(active)}
-      />
+      <div ref={playerRef} className="scroll-mt-24">
+        <AudioPlayer
+          key={active?.id ?? latest.id}
+          message={active ?? latest}
+          handle={handle}
+          profileUrl={profileUrl}
+          eyebrow="Latest audio"
+          autoLoad={Boolean(active)}
+          autoplay={Boolean(active)}
+        />
+      </div>
 
       <ul className="divide-y divide-white/10 border-y border-white/10">
         {messages.map((message) => {
@@ -50,7 +67,8 @@ export function AudioArchive({
             <li key={message.id}>
               <button
                 type="button"
-                onClick={() => setActiveId(message.id)}
+                onClick={() => select(message.id)}
+                aria-pressed={isActive}
                 className={cn(
                   "group flex w-full items-center gap-4 py-4 text-left transition-colors duration-300",
                   isActive ? "text-orange" : "hover:text-orange text-white",

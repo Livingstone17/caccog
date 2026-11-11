@@ -30,7 +30,14 @@ function embedUrl(id: string) {
  * been supplied the page still has something to listen to — the newest
  * recording from the church's Audiomack account.
  */
-export function LivePlayer({ className }: { className?: string }) {
+export function LivePlayer({
+  onAir = false,
+  className,
+}: {
+  /** True while `/api/live` reports the church is streaming. */
+  onAir?: boolean;
+  className?: string;
+}) {
   const [playing, setPlaying] = useState(false);
   const rawId = live.youtubeLiveId;
   const id = rawId && !isPlaceholder(rawId) ? rawId : null;
@@ -47,6 +54,52 @@ export function LivePlayer({ className }: { className?: string }) {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         />
+      </div>
+    );
+  }
+
+  // On air with no embeddable stream configured — send people to the stream.
+  if (onAir && !id) {
+    return (
+      <div
+        className={cn(
+          "border-red-500/40 bg-charcoal/60 relative overflow-hidden border p-8 md:p-12",
+          className,
+        )}
+      >
+        <span
+          className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(239,68,68,0.16),transparent_70%)]"
+          aria-hidden
+        />
+        <div className="relative">
+          <p className="flex items-center gap-3 text-[0.62rem] tracking-[0.28em] text-red-400 uppercase">
+            <span className="relative flex size-2">
+              <span
+                className="absolute inline-flex size-full animate-ping rounded-full bg-red-500 opacity-70 motion-reduce:hidden"
+                aria-hidden
+              />
+              <span
+                className="relative inline-flex size-2 rounded-full bg-red-500"
+                aria-hidden
+              />
+            </span>
+            On air now
+          </p>
+          <h2 className="font-display mt-5 text-3xl leading-snug font-light text-white md:text-4xl">
+            We&apos;re live right now
+          </h2>
+          <p className="text-muted mt-4 max-w-md text-sm leading-relaxed">
+            The service is streaming on our Facebook page. Join the congregation from
+            wherever you are — the recording is usually posted afterwards.
+          </p>
+          {live.watchUrl && !isPlaceholder(live.watchUrl) && (
+            <div className="mt-8">
+              <ButtonLink href={live.watchUrl} external>
+                {live.watchLabel}
+              </ButtonLink>
+            </div>
+          )}
+        </div>
       </div>
     );
   }

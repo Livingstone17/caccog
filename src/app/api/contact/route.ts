@@ -2,6 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { sendEmail } from "@/lib/email";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { contactSchema, parseOrIssues } from "@/lib/validation";
+import { siteSettings } from "@/content/site";
+import { isPlaceholder } from "@/lib/utils";
 
 const HIDDEN_INPUTS = new Set(["company", "website", "fax"]);
 
@@ -52,7 +54,6 @@ export async function POST(request: NextRequest) {
 
   const { name, email, phone, subject, message, topic } = parsed.data;
 
-  const inbox = process.env.CONTACT_INBOX_EMAIL;
   const mailSubject =
     topic === "prayer"
       ? `Prayer request from ${name}`
@@ -70,7 +71,22 @@ export async function POST(request: NextRequest) {
     .filter(Boolean)
     .join("\n");
 
-  const recipients = inbox && inbox.includes("@") ? inbox : email;
+  // Preferred inbox → the church's published address → the sender. The last hop
+  // only exists so a half-configured deploy never silently swallows a message.
+  const configuredInbox = process.env.CONTACT_INBOX_EMAIL?.trim();
+  const inbox =
+    configuredInbox && configuredInbox.includes("@") ? configuredInbox : null;
+  const publishedEmail = isPlaceholder(siteSettings.email) ? null : siteSettings.email;
+  const recipients = inbox ?? publishedEmail ?? email;
+
+  if (!inbox) {
+    console.warn(
+      "[contact] CONTACT_INBOX_EMAIL is not set — enquiry from",
+      email,
+      "will be delivered to",
+      recipients,
+    );
+  }
 
   const result = await sendEmail({
     to: recipients,
@@ -83,6 +99,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { ok: false, error: "We could not send your message. Please try again." },
       { status: 502 },
+    );
+  }
+
+  if (result.mocked) {
+    console.warn(
+      "[contact] RESEND_API_KEY / EMAIL_FROM are missing — the message from",
+      email,
+      "was not delivered anywhere",
     );
   }
 

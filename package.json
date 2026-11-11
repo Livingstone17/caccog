@@ -11,6 +11,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "logo:assets": "node scripts/generate-logo-assets.mjs",
+    "seed:settings": "node --env-file=.env scripts/seed-site-settings.mjs",
+    "email:test": "node --env-file=.env scripts/test-email.mjs",
     "studio": "sanity dev"
   },
   "dependencies": {

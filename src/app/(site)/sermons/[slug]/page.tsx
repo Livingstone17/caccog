@@ -50,19 +50,34 @@ export default async function SermonPage(props: PageProps<"/sermons/[slug]">) {
   const shareUrl = `${siteUrl}/sermons/${sermon.slug}`;
 
   /**
-   * The Audiomack player is fed through the same click-to-load facade as the
-   * archive, using the embed URL stored on the sermon document. The message
-   * object only carries what the player's labels need.
+   * Audiomack messages have no YouTube recording, so the archive player is the
+   * only way to hear them: the detail page embeds it directly and starts it,
+   * since the visitor got here by pressing "Listen". CMS sermons may also carry
+   * an explicit embed URL; archive entries build theirs from `audiomackId`
+   * inside `AudioPlayer`.
    */
-  const cmsAudio: AudioMessage | null = sermon.audiomackEmbedUrl
-    ? {
-        id: sermon.slug,
-        title: sermon.title,
-        date: sermon.date,
-        duration: "",
-        credit: sermon.speaker,
-      }
-    : null;
+  const audioMessage: AudioMessage | null =
+    sermon.audiomackId || sermon.audiomackEmbedUrl
+      ? {
+          id: sermon.audiomackId ?? sermon.slug,
+          title: sermon.title,
+          date: sermon.date,
+          duration: "",
+          credit: sermon.speaker,
+        }
+      : null;
+
+  const audioPlayer = audioMessage ? (
+    <AudioPlayer
+      message={audioMessage}
+      handle={audiomack.handle}
+      profileUrl={audiomack.profileUrl}
+      embedUrl={sermon.audiomackEmbedUrl ?? null}
+      eyebrow="Listen to this message"
+      autoLoad
+      autoplay
+    />
+  ) : null;
 
   return (
     <>
@@ -81,18 +96,16 @@ export default async function SermonPage(props: PageProps<"/sermons/[slug]">) {
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
           <div>
             <Reveal>
-              <YouTubeFacade videoId={sermon.videoId} title={sermon.title} />
+              {sermon.videoId ? (
+                <YouTubeFacade videoId={sermon.videoId} title={sermon.title} />
+              ) : audioPlayer ? (
+                audioPlayer
+              ) : (
+                <YouTubeFacade videoId={null} title={sermon.title} />
+              )}
             </Reveal>
-            {cmsAudio && sermon.audiomackEmbedUrl ? (
-              <Reveal className="mt-8">
-                <AudioPlayer
-                  message={cmsAudio}
-                  handle={audiomack.handle}
-                  profileUrl={audiomack.profileUrl}
-                  embedUrl={sermon.audiomackEmbedUrl}
-                  eyebrow="Listen to this message"
-                />
-              </Reveal>
+            {sermon.videoId && audioPlayer ? (
+              <Reveal className="mt-8">{audioPlayer}</Reveal>
             ) : null}
           </div>
 
@@ -133,7 +146,7 @@ export default async function SermonPage(props: PageProps<"/sermons/[slug]">) {
                 <ButtonLink href={sermon.audioUrl} external>
                   Download audio
                 </ButtonLink>
-              ) : sermon.audiomackEmbedUrl ? null : (
+              ) : audioMessage ? null : (
                 <span className="inline-flex min-h-12 items-center rounded-full border border-dashed border-white/25 px-7 text-[0.8rem] tracking-[0.22em] text-white/50 uppercase">
                   Audio — pending upload
                 </span>

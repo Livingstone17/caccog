@@ -3,6 +3,7 @@ import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import { PageHeader } from "@/components/ui/page-header";
 import { Section } from "@/components/ui/section";
+import { FaqAccordion } from "@/components/ui/faq-accordion";
 import { Reveal, Text } from "@/components/ui/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { faqs } from "@/content/pages";
@@ -16,34 +17,6 @@ export const metadata: Metadata = pageMetadata("/plan-your-visit", {
   description:
     "Service times, location, what to expect and how to reach Citadel of Grace — everything a first-time guest needs for a confident visit.",
 });
-
-function FaqAccordion() {
-  return (
-    <div className="mx-auto max-w-3xl divide-y divide-white/10 border-y border-white/10">
-      {faqs.map((faq, i) => (
-        <details key={i} className="group py-5">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base text-white md:text-lg [&::-webkit-details-marker]:hidden">
-            <span className="font-display font-normal">{faq.question}</span>
-            <span
-              className="text-orange relative size-6 shrink-0 transition-transform duration-500 group-open:rotate-45"
-              aria-hidden
-            >
-              <span className="absolute top-1/2 left-1/2 h-px w-3.5 -translate-x-1/2 -translate-y-1/2 bg-current" />
-              <span className="absolute top-1/2 left-1/2 h-3.5 w-px -translate-x-1/2 -translate-y-1/2 bg-current" />
-            </span>
-          </summary>
-          <p className="text-muted mt-4 max-w-2xl text-sm leading-relaxed md:text-base">
-            {isPlaceholder(faq.answer) ? (
-              <span className="placeholder-chip">{faq.answer}</span>
-            ) : (
-              faq.answer
-            )}
-          </p>
-        </details>
-      ))}
-    </div>
-  );
-}
 
 export default function PlanYourVisitPage() {
   const whatsappHref = isPlaceholder(siteSettings.whatsappNumber)
@@ -184,7 +157,7 @@ export default function PlanYourVisitPage() {
         eyebrow="Good to know"
         title="Questions from first-timers"
       >
-        <FaqAccordion />
+        <FaqAccordion items={faqs} className="mx-auto max-w-3xl" />
       </Section>
 
       {/* Contact strip */}

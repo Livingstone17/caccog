@@ -105,14 +105,13 @@ export function GiveBand() {
         </Reveal>
         <Reveal delay={0.08}>
           <h2 className="font-display max-w-2xl text-4xl leading-tight font-light text-black md:text-5xl">
-            Give securely, online or by transfer
+            Give directly to the church
           </h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p className="text-muted max-w-xl text-sm leading-relaxed md:text-base">
-            Support the work of the church with a one-time gift or recurring giving.
-            Payments are processed securely by Paystack — your card details never touch
-            our servers.
+            Support the work of the church with your tithe, offering or gift. Transfer
+            straight to the church account — online card giving is coming soon.
           </p>
         </Reveal>
         <Reveal delay={0.24}>

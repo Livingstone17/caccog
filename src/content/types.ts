@@ -34,6 +34,11 @@ export interface Sermon {
   coverImageUrl?: string | null;
   /** Audiomack embed URL managed in the CMS (`audiomackEmbedUrl`). */
   audiomackEmbedUrl?: string | null;
+  /**
+   * Audiomack song id for archive recordings. With no `videoId`, this is what
+   * the embed player builds its URL from.
+   */
+  audiomackId?: string | null;
 }
 
 export interface AudioMessage {

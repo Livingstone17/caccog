@@ -69,6 +69,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${cormorant.variable} ${inter.variable} h-full antialiased`}
     >
+      <head>
+        {/* Warm the Audiomack connection so the sermon player starts sooner. */}
+        <link rel="preconnect" href="https://audiomack.com" crossOrigin="anonymous" />
+      </head>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

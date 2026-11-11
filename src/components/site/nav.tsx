@@ -8,6 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { NAV_LINKS, siteSettings } from "@/content/site";
 import { buttonClass } from "@/components/ui/button";
 import { cn, isPlaceholder } from "@/lib/utils";
+import { LiveBadge } from "./live-indicator";
 
 /** Official church lockup (brand/logo-master.jpg → pnpm logo:assets). */
 function Wordmark() {
@@ -104,6 +105,7 @@ export function Nav() {
                   )}
                 >
                   {link.label}
+                  {link.href === "/live" && <LiveBadge />}
                   <span
                     className={cn(
                       "bg-orange absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 transition-transform duration-500 ease-[var(--ease-sanctuary)]",
@@ -178,6 +180,7 @@ export function Nav() {
                         className="font-display hover:text-ember block border-b border-white/8 py-3 text-[1.75rem] leading-tight font-light text-white transition-colors duration-500 sm:py-4 sm:text-5xl sm:leading-none"
                       >
                         {link.label}
+                        {link.href === "/live" && <LiveBadge />}
                       </Link>
                     </motion.div>
                   ))}

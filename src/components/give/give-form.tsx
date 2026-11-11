@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { siteSettings } from "@/content/site";
 import { CopyButton } from "@/components/ui/copy-button";
+import { buttonClass } from "@/components/ui/button";
 import { PrivacyNotice } from "@/components/ui/privacy-notice";
 import { isPlaceholder } from "@/lib/utils";
 
@@ -266,13 +267,26 @@ export function BankTransfer() {
     { label: "Bank", value: bank.bank },
   ];
 
+  // Where to send proof of transfer. Built here (not in content) so the phone
+  // number and email stay in one place: siteSettings.
+  const whatsappHref = isPlaceholder(siteSettings.whatsappNumber)
+    ? null
+    : `https://wa.me/${siteSettings.whatsappNumber.replace(/\D/g, "")}?text=${encodeURIComponent(
+        "Hello, I have just given to the church by bank transfer and would like to confirm my gift.",
+      )}`;
+  const emailHref = isPlaceholder(siteSettings.email)
+    ? null
+    : `mailto:${siteSettings.email}?subject=${encodeURIComponent(
+        "Bank transfer confirmation",
+      )}`;
+
   return (
     <div id="bank-transfer" className="surface p-6 md:p-9">
       <p className="eyebrow">Bank transfer</p>
       <p className="text-muted mt-4 text-sm leading-relaxed">
-        You can also give by direct transfer to the church account. Please use your name
-        as the description, and keep your teller or receipt — the media team can confirm
-        it for you.
+        Give by direct transfer to the church account. Please use your name and the
+        purpose — tithe, offering or building fund — as the transfer description so it is
+        easy to match the gift to you.
       </p>
 
       <dl className="mt-7 divide-y divide-white/10 border-y border-white/10">
@@ -304,6 +318,34 @@ export function BankTransfer() {
           );
         })}
       </dl>
+
+      <div className="border-orange/30 bg-orange/5 mt-7 border-l-2 px-5 py-5">
+        <p className="text-orange text-[0.6rem] tracking-[0.28em] uppercase">
+          After you transfer
+        </p>
+        <p className="text-muted mt-2 text-sm leading-relaxed">
+          Send the church office a screenshot or photo of your transfer receipt, with your
+          name and the purpose of the gift. That is how the finance team confirms it, and
+          how you receive a receipt.
+        </p>
+        <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
+          {whatsappHref && (
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonClass("primary", "min-h-11 px-5 text-[0.72rem]")}
+            >
+              WhatsApp the receipt
+            </a>
+          )}
+          {emailHref && (
+            <a href={emailHref} className={buttonClass("ghost", "min-h-11 px-5 text-[0.72rem]")}>
+              Email it instead
+            </a>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

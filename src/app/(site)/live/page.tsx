@@ -6,6 +6,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { LivePlayer } from "@/components/live/live-player";
 import { siteSettings } from "@/content/site";
+import { getLiveStatus } from "@/lib/live-status";
 import { isPlaceholder } from "@/lib/utils";
 
 export const metadata: Metadata = pageMetadata("/live", {
@@ -14,11 +15,19 @@ export const metadata: Metadata = pageMetadata("/live", {
     "Join Citadel of Grace online — watch the live service, see stream times, and give or request prayer while you watch.",
 });
 
-export default function LivePage() {
+/**
+ * Re-rendered every 30 seconds so "live now" follows the CMS toggle, and the
+ * Sanity revalidate webhook clears it immediately when the stream flips.
+ */
+export const revalidate = 30;
+
+export default async function LivePage() {
+  const status = await getLiveStatus();
+
   return (
     <>
       <PageHeader
-        eyebrow="Worship with us"
+        eyebrow={status.live ? "Live now" : "Worship with us"}
         title="Watch live"
         intro="Wherever you are, you can join the service. The stream begins at the times below — arrive a few minutes early and settle in."
       />
@@ -26,7 +35,7 @@ export default function LivePage() {
       {/* Player */}
       <Section id="stream" align="left">
         <Reveal>
-          <LivePlayer />
+          <LivePlayer onAir={status.live} />
         </Reveal>
         <Reveal delay={0.1}>
           <p className="text-muted mt-6 max-w-2xl text-sm leading-relaxed">
@@ -110,8 +119,8 @@ export default function LivePage() {
               Give while you watch
             </h3>
             <p className="text-muted mt-3 text-sm leading-relaxed">
-              Support the work of the church with a one-time gift or recurring giving,
-              processed securely by Paystack.
+              Support the work of the church with your tithe, offering or gift — give
+              directly by bank transfer to the church account.
             </p>
             <div className="mt-6">
               <ButtonLink href="/give">Give now</ButtonLink>

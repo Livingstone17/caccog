@@ -22,21 +22,21 @@ const sections: { heading: string; body: string[] }[] = [
     heading: "Information you give us",
     body: [
       "When you send a message or prayer request, we receive the details you type — typically your name, email address and the content of your message. Prayer requests are treated with confidentiality and are shared only with those who need to see them in order to pray and follow up.",
-      "When you give, we receive your name, email address, the amount and purpose of your gift, and the transaction reference from our payment processor. We never receive, store or see your card number — payments are handled entirely by Paystack on their own secure pages.",
+      "When you give by bank transfer, we only learn what you choose to tell us — typically your name, the amount, the purpose of your gift, and the proof of transfer if you send it to the church office. We never ask for, see or store your card number, PIN or online banking password.",
       "When you subscribe to the newsletter, we store your email address only for the purpose of sending updates.",
     ],
   },
   {
     heading: "How we use your information",
     body: [
-      "To reply to enquiries, to deliver giving receipts and confirmations, to send the newsletter you asked for, and to keep basic security records (such as rate limiting) that protect the site from abuse.",
+      "To reply to enquiries, to confirm your gift and issue a receipt when you ask for one, to send the newsletter you asked for, and to keep basic security records (such as rate limiting) that protect the site from abuse.",
       "We do not sell, rent or trade your personal information to anyone.",
     ],
   },
   {
     heading: "Third-party services",
     body: [
-      "Payments: Paystack processes all card and bank transactions. Paystack's own privacy policy applies to the data collected during payment.",
+      "Payments: gifts are made by direct bank transfer through your own bank, whose policies cover that transaction. This website does not process payments or collect card details. If online card giving is added later, payment processing will be handled by Paystack under their own privacy policy.",
       "Email: transactional and form emails are delivered through Resend (or Brevo).",
       "Content management: site content is managed through Sanity.",
       "Embedded media and maps: YouTube videos and Google Maps only load when you interact with them, and those services may set their own cookies under their policies.",

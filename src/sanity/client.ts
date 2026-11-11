@@ -37,3 +37,10 @@ export function getSanityClient(): SanityClient {
 
   return cached;
 }
+
+export const client = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: true, // Set to false if you need immediate, uncached updates
+});

@@ -13,6 +13,7 @@ export const SANITY_TAGS = {
   blogPost: "blogPost",
   staffProfile: "staffProfile",
   ministry: "ministry",
+  siteSettings: "siteSettings",
 } as const;
 
 export type SanityTag = (typeof SANITY_TAGS)[keyof typeof SANITY_TAGS];

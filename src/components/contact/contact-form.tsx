@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { PrivacyNotice } from "@/components/ui/privacy-notice";
+import { siteSettings } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 type Topic = "prayer" | "contact";
@@ -9,6 +10,8 @@ type Topic = "prayer" | "contact";
 interface FormState {
   status: "idle" | "sending" | "success" | "error";
   message?: string;
+  /** The API accepted the request but had no email credentials, so nothing was sent. */
+  mocked?: boolean;
 }
 
 const field =
@@ -23,6 +26,10 @@ export function ContactForm({ initialTopic = "contact" }: { initialTopic?: Topic
   const [message, setMessage] = useState("");
   const [honeypot, setHoneypot] = useState("");
   const [state, setState] = useState<FormState>({ status: "idle" });
+
+  /** Direct contact details for the "not delivered" fallback message. */
+  const primaryPhone = siteSettings.phone.split(",")[0].trim();
+  const whatsappUrl = `https://wa.me/${siteSettings.whatsappNumber.replace(/\D/g, "")}`;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +57,11 @@ export function ContactForm({ initialTopic = "contact" }: { initialTopic?: Topic
           company: honeypot,
         }),
       });
-      const data = (await res.json()) as { ok?: boolean; error?: string };
+      const data = (await res.json()) as {
+        ok?: boolean;
+        error?: string;
+        mocked?: boolean;
+      };
       if (!res.ok || !data.ok) {
         setState({
           status: "error",
@@ -58,7 +69,7 @@ export function ContactForm({ initialTopic = "contact" }: { initialTopic?: Topic
         });
         return;
       }
-      setState({ status: "success" });
+      setState({ status: "success", mocked: Boolean(data.mocked) });
     } catch {
       setState({
         status: "error",
@@ -66,6 +77,70 @@ export function ContactForm({ initialTopic = "contact" }: { initialTopic?: Topic
       });
     }
   };
+
+  const resetButton = (
+    <button
+      type="button"
+      onClick={() => {
+        setState({ status: "idle" });
+        setMessage("");
+        setSubject("");
+      }}
+      className="text-orange hover:text-ember mt-8 text-xs tracking-[0.24em] uppercase transition-colors duration-500"
+    >
+      {state.mocked ? "Start again" : "Send another message"}
+    </button>
+  );
+
+  // The API answered `mocked`: no Resend credentials, so nothing was delivered.
+  // Say so plainly and hand over the church's direct details instead.
+  if (state.status === "success" && state.mocked) {
+    return (
+      <div
+        className="surface flex min-h-72 flex-col items-center justify-center p-10 text-center"
+        role="alert"
+      >
+        <span
+          className="border-orange/50 bg-orange/10 text-ember flex size-12 items-center justify-center rounded-full border text-xl"
+          aria-hidden
+        >
+          !
+        </span>
+        <h2 className="font-display mt-6 text-3xl font-light text-white">
+          Your message was not delivered
+        </h2>
+        <p className="text-muted mt-4 max-w-sm text-sm leading-relaxed">
+          Email delivery is not set up on this site yet, so your message did not reach the
+          church inbox — and it was not saved anywhere else.
+        </p>
+        <p className="text-muted mt-4 max-w-sm text-sm leading-relaxed">
+          Please reach us directly instead:{" "}
+          <a
+            href={`tel:${primaryPhone.replace(/\s/g, "")}`}
+            className="text-orange hover:text-ember underline underline-offset-2 transition-colors"
+          >
+            {primaryPhone}
+          </a>
+          ,{" "}
+          <a
+            href={whatsappUrl}
+            className="text-orange hover:text-ember underline underline-offset-2 transition-colors"
+          >
+            WhatsApp
+          </a>{" "}
+          or{" "}
+          <a
+            href={`mailto:${siteSettings.email}`}
+            className="text-orange hover:text-ember underline underline-offset-2 transition-colors"
+          >
+            {siteSettings.email}
+          </a>
+          .
+        </p>
+        {resetButton}
+      </div>
+    );
+  }
 
   if (state.status === "success") {
     return (
@@ -87,17 +162,7 @@ export function ContactForm({ initialTopic = "contact" }: { initialTopic?: Topic
             ? "Thank you for trusting us with this. Our team will stand with you in prayer."
             : "Thank you for reaching out. Someone from the church will get back to you shortly."}
         </p>
-        <button
-          type="button"
-          onClick={() => {
-            setState({ status: "idle" });
-            setMessage("");
-            setSubject("");
-          }}
-          className="text-orange hover:text-ember mt-8 text-xs tracking-[0.24em] uppercase transition-colors duration-500"
-        >
-          Send another message
-        </button>
+        {resetButton}
       </div>
     );
   }
