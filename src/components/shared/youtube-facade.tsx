@@ -29,7 +29,7 @@ export function YouTubeFacade({ videoId, title, className }: YouTubeFacadeProps)
         <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(255,122,26,0.12),transparent_70%)]" />
         <span className="eyebrow relative">Video pending</span>
         <p className="text-muted relative mt-3 max-w-xs px-6 text-center text-sm">
-          The recording will appear here once the media team supplies the YouTube link.
+          The recording will appear here once the video is ready
         </p>
       </div>
     );
